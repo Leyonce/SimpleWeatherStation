@@ -8,6 +8,7 @@ package sensorapp.station;
 import java.util.ArrayList;
 import sensorapp.appinterfaces.Observer;
 import sensorapp.appinterfaces.Subject;
+import sensorapp.sensors.pojo.SensorData;
 
 /**
  *
@@ -16,9 +17,8 @@ import sensorapp.appinterfaces.Subject;
 public class WeatherData implements Subject{
     
   private ArrayList observers; 
-  private double temperature;
-  private float humidity;
-  private float pressure ; 
+  private SensorData data;
+  
   
   public WeatherData () {
       observers = new ArrayList();
@@ -40,17 +40,15 @@ public class WeatherData implements Subject{
   public void notifyObservers() {
       for (int i = 0; i < observers.size(); i++) {
           Observer observer = (Observer) observers.get(i);
-          observer.update(temperature, humidity, pressure);
+          observer.update(data);
       }
   }
   
   public void measurementsChanged() {
       notifyObservers();
   }
-  public void setMeasurement(double temperature, float humidity, float pressure ){
-      this.temperature = temperature;
-      this.humidity  = humidity;
-      this.pressure = pressure;
+  public void setMeasurement(SensorData data ){
+      this.data = data;
       measurementsChanged();
   }
 

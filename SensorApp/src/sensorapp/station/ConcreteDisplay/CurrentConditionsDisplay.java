@@ -6,6 +6,7 @@ package sensorapp.station.ConcreteDisplay;
 
 import sensorapp.appinterfaces.DisplayElement;
 import sensorapp.appinterfaces.Observer;
+import sensorapp.sensors.pojo.SensorData;
 import sensorapp.station.WeatherData;
 
 /**
@@ -14,9 +15,7 @@ import sensorapp.station.WeatherData;
  */
 public class CurrentConditionsDisplay implements Observer, DisplayElement{
      
-     private double temperature;
-     private double humidity;
-     private double pressure;
+     private SensorData data;
      private WeatherData weatherData;
     
     @SuppressWarnings("LeakingThisInConstructor") 
@@ -25,18 +24,15 @@ public class CurrentConditionsDisplay implements Observer, DisplayElement{
         weatherData.registerObserver(this);
     } 
     @Override
-    public void update(double temp, double humidity, double pressure) {
+    public void update(SensorData data) {
        
-        this.temperature = temp;
-        this.humidity= humidity;
-        this.pressure = pressure;
+        this.data = data;
         display();
     }
 
     @Override
     public void display() {
-        System.out.println("Current Conditions: " + this.temperature  + "F degrees and " + this.humidity
-    + "% humidity and pressure " +this.pressure + "!");
+        System.out.println("Current Conditions: " + this.data);
    }
     
     

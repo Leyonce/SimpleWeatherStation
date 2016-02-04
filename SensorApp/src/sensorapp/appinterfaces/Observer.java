@@ -4,11 +4,13 @@
  */
 package sensorapp.appinterfaces;
 
+import sensorapp.sensors.pojo.SensorData;
+
 /**
  *
  * @author leo
  */
 public interface Observer {
-    public void update(double temp, double humidity, double pressure);
+    public void update(SensorData data);
     
 }

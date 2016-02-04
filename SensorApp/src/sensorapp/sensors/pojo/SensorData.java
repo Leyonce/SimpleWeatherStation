@@ -16,7 +16,7 @@ public class SensorData {
 // Associates value of Data, Date and SIUnit as a single object.  
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private String date= null;
-    private double sensordata;
+    private double data;
     private String siUnit = null;
 
     
@@ -32,12 +32,12 @@ public class SensorData {
         this.date = date;
     }
 
-    public double getSensordata() {
-        return sensordata;
+    public double getData() {
+        return data;
     }
 
-    public void setSensordata(double sensordata) {
-        this.sensordata = sensordata;
+    public void setData(double data) {
+        this.data = data;
     }
        
     public String getSiUnit() {
@@ -50,7 +50,7 @@ public class SensorData {
 
     @Override
     public String toString() {
-        return "Data is: " + this.getSensordata() + " SI Units: " +this.getSiUnit()+" Date: " + this.getDate();
+        return "Data is: " + this.getData() + " SI Units: " +this.getSiUnit()+" Date: " + this.getDate();
         
         
     }

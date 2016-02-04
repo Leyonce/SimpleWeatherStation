@@ -5,10 +5,14 @@
  */
 package sensorapp;
 
+import java.sql.SQLException;
 import sensorapp.sensors.Sensor;
 import sensorapp.sensors.SensorFactory;
 import sensorapp.constants.SensorType;
+import sensorapp.datahelper.Session;
+import sensorapp.station.ConcreteDisplay.CurrentConditionsDisplay;
 import sensorapp.station.Station;
+import sensorapp.station.WeatherData;
 
 /**
  *
@@ -16,22 +20,26 @@ import sensorapp.station.Station;
  */
 public class SensorApp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
           
-      Station station = new Station(new SensorFactory());
-      Sensor sensor = station.createSensor("Temp", SensorType.TEMPERATURE);
-      station.startSensor(sensor);
-      sensor = station.createSensor("Temp", SensorType.HUMIDITY);
-      station.startSensor(sensor);
-      sensor = station.createSensor("Temp", SensorType.PRESSURE);
-      station.startSensor(sensor);
-      sensor = station.createSensor("Temp", SensorType.WIND_VELOCITY);
-      station.startSensor(sensor);
+        Session session  = new Session();
+        session.getConnection();
+//      Station station = new Station(new SensorFactory());
+//      Sensor sensor1 = station.createSensor("Temp", SensorType.TEMPERATURE);
+//      System.out.println(sensor1);
+//      station.startSensor(sensor1);
+//      Sensor sensor2 = station.createSensor("Hum", SensorType.HUMIDITY);
+//      System.out.println(sensor2);
+//      station.startSensor(sensor2);
+//      Sensor sensor3 = station.createSensor("Press", SensorType.PRESSURE);
+//      System.out.println(sensor3);
+//      station.startSensor(sensor3);
+//      Sensor sensor4 = station.createSensor("Wind", SensorType.WIND_VELOCITY);
+//      System.out.println(sensor4);
+//      station.startSensor(sensor4);
       
       
-//        WeatherData weatherData = new WeatherData();
-//        CurrentConditionsDisplay currentDusplay = new CurrentConditionsDisplay(weatherData); 
-//        weatherData.setMeasurement(00,30.40f,65);
+      
     }
     
 }
