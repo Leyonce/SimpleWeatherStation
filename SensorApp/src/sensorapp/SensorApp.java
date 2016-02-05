@@ -6,13 +6,13 @@
 package sensorapp;
 
 import java.sql.SQLException;
+import sensorapp.constants.DBType;
 import sensorapp.sensors.Sensor;
 import sensorapp.sensors.SensorFactory;
 import sensorapp.constants.SensorType;
-import sensorapp.datahelper.Session;
-import sensorapp.station.ConcreteDisplay.CurrentConditionsDisplay;
+import sensorapp.datahelper.DBExecute;
+import sensorapp.datahelper.DBUtil;
 import sensorapp.station.Station;
-import sensorapp.station.WeatherData;
 
 /**
  *
@@ -22,22 +22,22 @@ public class SensorApp {
 
     public static void main(String[] args) throws SQLException {
           
-        Session session  = new Session();
-        session.getConnection();
-//      Station station = new Station(new SensorFactory());
-//      Sensor sensor1 = station.createSensor("Temp", SensorType.TEMPERATURE);
-//      System.out.println(sensor1);
-//      station.startSensor(sensor1);
-//      Sensor sensor2 = station.createSensor("Hum", SensorType.HUMIDITY);
-//      System.out.println(sensor2);
-//      station.startSensor(sensor2);
-//      Sensor sensor3 = station.createSensor("Press", SensorType.PRESSURE);
-//      System.out.println(sensor3);
-//      station.startSensor(sensor3);
-//      Sensor sensor4 = station.createSensor("Wind", SensorType.WIND_VELOCITY);
-//      System.out.println(sensor4);
-//      station.startSensor(sensor4);
-      
+        
+      Station station = new Station(new SensorFactory());
+      Sensor sensor1 = station.createSensor("Temp", SensorType.TEMPERATURE);
+      System.out.println(sensor1);
+      station.startSensor(sensor1);
+      Sensor sensor2 = station.createSensor("Hum", SensorType.HUMIDITY);
+      System.out.println(sensor2);
+      station.startSensor(sensor2);
+      Sensor sensor3 = station.createSensor("Press", SensorType.PRESSURE);
+      System.out.println(sensor3);
+      station.startSensor(sensor3);
+      Sensor sensor4 = station.createSensor("Wind", SensorType.WIND_VELOCITY);
+      System.out.println(sensor4);
+      station.startSensor(sensor4);
+        DBExecute.selectSQL(DBUtil.getConnection(DBType.POSTGRESQL), "6", sensor1.hashCode());
+                
       
       
     }

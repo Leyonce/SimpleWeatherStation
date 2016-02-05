@@ -7,6 +7,7 @@ package sensorapp.sensors;
 import sensorapp.sensors.pojo.Location;
 import sensorapp.constants.SensorType;
 import static java.lang.Thread.sleep;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
@@ -30,8 +31,13 @@ class PressureSensor extends Sensor {
     public void run() {
         while (!this.isInterrupted()) {
             try {
-                sleep(2500);
-                generateSensorData();
+//                sleep(120000);
+                sleep(4200);
+                try {
+                    generateSensorData();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PressureSensor.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (InterruptedException ex) {
                 Logger.getLogger(WindVelocitySensor.class.getName()).log(Level.SEVERE, null, ex);
             }

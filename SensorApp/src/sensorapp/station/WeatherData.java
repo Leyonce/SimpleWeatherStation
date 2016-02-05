@@ -15,13 +15,17 @@ import sensorapp.sensors.pojo.SensorData;
  * @author leo
  */
 public class WeatherData implements Subject{
-    
+  
+  private static final WeatherData WDInstance = new WeatherData();
   private ArrayList observers; 
   private SensorData data;
   
   
-  public WeatherData () {
+  private WeatherData () {
       observers = new ArrayList();
+  }
+  public static WeatherData getInstance () {
+      return WDInstance;
   }
   @Override
   public void registerObserver(Observer o) {
@@ -38,7 +42,7 @@ public class WeatherData implements Subject{
   
   @Override
   public void notifyObservers() {
-      for (int i = 0; i < observers.size(); i++) {
+      for(int i = 0; i < observers.size(); i++) {
           Observer observer = (Observer) observers.get(i);
           observer.update(data);
       }

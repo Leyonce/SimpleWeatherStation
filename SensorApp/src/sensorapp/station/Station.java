@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sensorapp.station;
 
 import sensorapp.sensors.Sensor;
@@ -16,14 +12,16 @@ import sensorapp.constants.SensorType;
 public class Station {
     
    SensorFactory factory;
-   
+   SensorList sensorList = null;
    public Station(SensorFactory factory) {
        this.factory = factory;
+       this.sensorList = new SensorList();
    }
    
    public Sensor createSensor (String name, SensorType type) {
       Sensor sensor;
       sensor = factory.createSensor(name, type);
+      sensorList.addSensor(sensor);
       return sensor;
    } 
    
@@ -37,6 +35,9 @@ public class Station {
       sensor.interrupt();
   }
   
-  
+  public void killSensor(Sensor sensor) {
+      sensorList.removeSenor(sensor);
+      this.stopSensor(sensor);
+  }
 
 }

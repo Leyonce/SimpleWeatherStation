@@ -5,14 +5,16 @@
  */
 package sensorapp.sensors;
 
+import java.sql.SQLException;
 import sensorapp.sensors.pojo.SensorData;
 import sensorapp.sensors.pojo.SensorDataList;
 import sensorapp.sensors.pojo.Location;
 import sensorapp.constants.Status;
 import sensorapp.constants.SensorType;
 import java.util.Random;
-import sensorapp.station.ConcreteDisplay.CurrentConditionsDisplay;
-import sensorapp.station.WeatherData;
+import sensorapp.constants.DBType;
+import sensorapp.datahelper.DBExecute;
+import sensorapp.datahelper.DBUtil;
 
 /**
  *
@@ -22,6 +24,7 @@ public abstract class Sensor extends Thread {
     /*** Sensor Abstract class, all sensors must extend this class*/
     protected Location location;
     protected String name = null;
+    protected int id= 0;
     protected SensorData sensorData = null;
     protected SensorDataList sensorDataList= null;
     
@@ -32,6 +35,7 @@ public abstract class Sensor extends Thread {
     
     public Sensor(String name,SensorType sensorType ) {
         /***Sensor constructor, sets the name of the sensor, the type of the sensor and instantiate the sensor data List ArrayList*/
+        this.id= this.hashCode();
         this.name = name;
         this.sensorType = sensorType;
         this.sensorDataList = new SensorDataList();
@@ -39,7 +43,7 @@ public abstract class Sensor extends Thread {
     
     public Sensor(String name,Location location  ) {
         /***Sensor constructor, sets the name of the sensor, the type of the sensor, the location and instantiate the sensor data List ArrayList*/
-
+        this.id= this.hashCode();
         this.name = name;
         this.location = location;
         this.sensorDataList = new SensorDataList();
@@ -56,7 +60,7 @@ public abstract class Sensor extends Thread {
     }
 
     public SensorData getSensorData() {
-         /*** Returns the current sensor dataobject */
+         /*** Returns the current sensor data object */
         return sensorData;
     }
 
@@ -65,19 +69,20 @@ public abstract class Sensor extends Thread {
         this.sensorData.setData(55);
     }
 
-    protected void generateSensorData() {
+    protected void generateSensorData() throws SQLException {
         Random rn = new Random();
         double number = rn.nextInt(100 - 0 + 1) + 0;
         sensorData = new SensorData();
         sensorData.setSiUnit(siUnit);
         sensorData.setData(number);
-      //notify dispaly  
-      WeatherData weatherData = new WeatherData();
-      CurrentConditionsDisplay currentDusplay = new CurrentConditionsDisplay(weatherData); 
-      weatherData.setMeasurement(sensorData);
-//        System.out.println("Hello from "+ sensorType.toString()+ " "+  this.sensorData.toString());
+        DBExecute dbExecute = new DBExecute();
+        dbExecute.insertSQL(DBUtil.getConnection(DBType.POSTGRESQL),this.id, this.name,sensorData.getData(), sensorData.getDate(), this.sensorType.toString(), this.sensorData.getTime());
+        
+//      //notify display  
+//      WeatherData weatherData = new WeatherData();
+//      CurrentConditionsDisplay currentDisplay = new CurrentConditionsDisplay(weatherData); 
+//      weatherData.setMeasurement(sensorData);
         sensorDataList.addSensorData(sensorData);
-       
     }
 
     @Override
