@@ -2,19 +2,23 @@
  * Code Written By Eyog Yvon Leonce -FE15P011
 
  */
+
 package sensorapp.sensors;
 
 import sensorapp.constants.SensorType;
 import sensorapp.sensors.pojo.Location;
 
 /**
- *
- * @author leo
+  * Create sensor object depending on the type of sensor. 
+  * The classes inheriting from sensor are responsible for setting their own unique parameters. 
+  * This class decides on which type of sensor to create using the sensor type as key parameter. 
  */
+
 public class SensorFactory {
- /*** Create sensor object depending on the type of sensor. This factory sets the SI Units of the various sensors*/   
-
-
+ 
+    /**
+     * @return 
+     */
 public Sensor createSensor(String name, String sensorType, Location location ) {
     Sensor sensor = null;
     if(sensorType.equals(SensorType.HUMIDITY.toString())) {

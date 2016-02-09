@@ -22,7 +22,7 @@ public class SensorDataList {
         list.add(sensorData);
     }
     
-    public ArrayList getSensorDataList() {
+    public ArrayList getList() {
         return list;
     }
 

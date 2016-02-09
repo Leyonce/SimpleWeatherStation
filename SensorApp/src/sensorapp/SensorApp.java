@@ -6,11 +6,7 @@
 package sensorapp;
 
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
 import sensorapp.constants.SensorType;
-import sensorapp.datahelper.DBExecute;
 import sensorapp.sensors.Sensor;
 import sensorapp.sensors.pojo.Location;
 import sensorapp.station.ConcreteDisplay.StationUI;
@@ -24,10 +20,6 @@ public class SensorApp {
 
     public static void main(String[] args) throws SQLException {
 
-        
-        
-        
-        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -52,26 +44,22 @@ public class SensorApp {
         //</editor-fold>
 
         /* Create and display the form */
+        StationUI station = StationUI.getInstance();
+        station.setVisible(true);
 
-         
-             StationUI station = StationUI.getInstance();
-                     station.setVisible(true);
-        
-                     
-      Sensor sensor1 = Station.getInstance().createSensor("AnotherTemp", SensorType.TEMPERATURE.toString(), new Location());
-        System.out.println(sensor1);
-        Station.getInstance().startSensor(sensor1);
-        Sensor sensor2 = Station.getInstance().createSensor("SHum", SensorType.HUMIDITY.toString(), new Location());
-        System.out.println(sensor2);
-        Station.getInstance().startSensor(sensor2);
-        Sensor sensor3 = Station.getInstance().createSensor("ANotherPress", SensorType.PRESSURE.toString(), new Location());
-        System.out.println(sensor3);
-        Station.getInstance().startSensor(sensor3);
-        Sensor sensor4 = Station.getInstance().createSensor("AnotherWind", SensorType.WIND_VELOCITY.toString(),new Location());
-        System.out.println(sensor4);
-        Station.getInstance().startSensor(sensor4);
-        DBExecute.getSensorDataTime("6", sensor1.hashCode());
-               
+        Sensor sensor1 = Station.getInstance().createSensor("Temp1", SensorType.TEMPERATURE.toString(), new Location());
+//        System.out.println(sensor1);
+//        Station.getInstance().startSensor(sensor1);
+        Sensor sensor2 = Station.getInstance().createSensor("Humi1", SensorType.HUMIDITY.toString(), new Location());
+//        System.out.println(sensor2);
+//        Station.getInstance().startSensor(sensor2);
+        Sensor sensor3 = Station.getInstance().createSensor("Press1", SensorType.PRESSURE.toString(), new Location());
+//        System.out.println(sensor3);
+//        Station.getInstance().startSensor(sensor3);
+        Sensor sensor4 = Station.getInstance().createSensor("Wind1", SensorType.WIND_VELOCITY.toString(), new Location());
+//        System.out.println(sensor4);
+//        Station.getInstance().startSensor(sensor4);
+
     }
 
 }

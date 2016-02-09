@@ -6,6 +6,7 @@ package sensorapp.station.ConcreteDisplay;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import sensorapp.sensors.NoSensor;
 import sensorapp.sensors.Sensor;
 import sensorapp.sensors.pojo.Location;
 import sensorapp.station.Station;
@@ -208,16 +209,51 @@ public class CreateSensorUI extends javax.swing.JFrame {
     }//GEN-LAST:event_SensorTypeComboBoxActionPerformed
 
     private void CreateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateButtonActionPerformed
-        // TODO add your handling code here:
-        Location l = new Location();
-        l.setLatitude(LatitudeSlider.getValue());
-        l.setLongitude(LongitudeSlider.getValue());
-        Sensor sensor = Station.getInstance().createSensor(SensorName.getText(), SensorTypeComboBox.getSelectedItem().toString(), l);
+        /**
+         * Create a sensor and add its value to the corresponding combo list*
+         */
+        String type;
+        Location location = new Location();
+        location.setLatitude(LatitudeSlider.getValue());
+        location.setLongitude(LongitudeSlider.getValue());
+        type = SensorTypeComboBox.getSelectedItem().toString();
+        JOptionPane.showMessageDialog(rootPane, ChooseSensorCombobox(type, location));
         ArrayList list = Station.getInstance().getSensorList().getList();
 
-        JOptionPane.showMessageDialog(rootPane, sensor);
-        StationUI.getInstance().getTemperatureComboBox().addItem(SensorName.getText());
+
     }//GEN-LAST:event_CreateButtonActionPerformed
+
+    private Sensor ChooseSensorCombobox(String type, Location location) {
+        Sensor sensor;
+        switch (type) {
+            case "HUMIDITY":
+                sensor = Station.getInstance().createSensor(SensorName.getText(), type, location);
+                StationUI.getInstance().getHumidityComboBox().addItem(SensorName.getText());
+                this.dispose();
+                return sensor;
+            case "TEMPERATURE":
+                sensor = Station.getInstance().createSensor(SensorName.getText(), type, location);
+
+                StationUI.getInstance().getTemperatureComboBox().addItem(SensorName.getText());
+                this.dispose();
+                return sensor;
+            case "PRESSURE":
+                sensor = Station.getInstance().createSensor(SensorName.getText(), type, location);
+
+                StationUI.getInstance().getPressureComboBox().addItem(SensorName.getText());
+                this.dispose();
+                return sensor;
+            case "WIND_VELOCITY":
+                sensor = Station.getInstance().createSensor(SensorName.getText(), type, location);
+
+                StationUI.getInstance().getWindComboBox().addItem(SensorName.getText());
+                this.dispose();
+                return sensor;
+            default:
+                sensor = new NoSensor();
+                return sensor;
+        }
+    }
 
     private void LongitudetextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LongitudetextFieldActionPerformed
         // TODO add your handling code here:

@@ -25,9 +25,9 @@ class TemperatureSensor extends Sensor {
 
     }
 
-    public TemperatureSensor(String name,String type, Location location) {
-        super(name,type, location);
-
+    public TemperatureSensor(String name, String type, Location location) {
+        super(name, type, location);
+        this.siUnit = "°C";
     }
 
     public void run() {
@@ -42,7 +42,7 @@ class TemperatureSensor extends Sensor {
                     Logger.getLogger(TemperatureSensor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(WindVelocitySensor.class.getName()).log(Level.SEVERE, null, ex);
+                currentThread().interrupt();
             }
         }
     }

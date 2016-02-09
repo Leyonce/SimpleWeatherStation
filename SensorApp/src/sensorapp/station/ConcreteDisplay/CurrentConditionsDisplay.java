@@ -13,27 +13,41 @@ import sensorapp.station.WeatherData;
  *
  * @author leo
  */
-public class CurrentConditionsDisplay implements Observer, DisplayElement{
-     
-     private SensorData data;
-     private WeatherData weatherData;
+public class CurrentConditionsDisplay implements Observer, DisplayElement {
     
-    @SuppressWarnings("LeakingThisInConstructor") 
-    public CurrentConditionsDisplay(WeatherData weatherData) {
-        this.weatherData = weatherData;
+    public String id ;
+    private SensorData data;
+    private WeatherData weatherData;
+
+    private static CurrentConditionsDisplay instance;
+    
+    
+    private CurrentConditionsDisplay() {
+        this.weatherData =   WeatherData.getInstance();
         weatherData.registerObserver(this);
-    } 
+           
+    }
+    public static CurrentConditionsDisplay getInstance() {
+        if (instance == null) {
+            instance = new CurrentConditionsDisplay();
+        }
+        return instance;
+    }
+    
     @Override
     public void update(SensorData data) {
-       
+
         this.data = data;
         display();
     }
 
     @Override
-    public void display() {
-        System.out.println("Current Conditions: " + this.data);
-   }
-    
-    
+    public String display() {
+        Double s = this.data.getData();
+          
+        StationUI.getInstance().getCurrentValueTextField().setText(s.toString()+ " "+this.data.getSiUnit());
+        return s.toString();
+        
+    }
+
 }

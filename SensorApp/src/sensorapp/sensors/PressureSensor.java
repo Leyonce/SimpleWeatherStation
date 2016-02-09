@@ -5,7 +5,6 @@
 package sensorapp.sensors;
 
 import sensorapp.sensors.pojo.Location;
-import sensorapp.constants.SensorType;
 import static java.lang.Thread.sleep;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -24,6 +23,7 @@ class PressureSensor extends Sensor {
 
     public PressureSensor(String name,String type, Location location) {
         super(name,type, location);
+        this.siUnit = "pascal";
     }
 
     public void run() {
@@ -37,7 +37,7 @@ class PressureSensor extends Sensor {
                     Logger.getLogger(PressureSensor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(WindVelocitySensor.class.getName()).log(Level.SEVERE, null, ex);
+                currentThread().interrupt();
             }
         }
     }

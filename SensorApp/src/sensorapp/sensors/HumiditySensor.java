@@ -12,20 +12,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * The Humidity sensor
  *
  * @author leo
  */
 class HumiditySensor extends Sensor {
 
-    public HumiditySensor(String name,String type) {
+    public HumiditySensor(String name, String type) {
         super(name, type);
         this.siUnit = "hum";
 
     }
 
-    public HumiditySensor(String name,String type, Location location) {
-        super(name,type, location);
-
+    public HumiditySensor(String name, String type, Location location) {
+        super(name, type, location);
+        this.siUnit = "hum";
     }
 
     public void run() {
@@ -39,10 +40,9 @@ class HumiditySensor extends Sensor {
                     Logger.getLogger(HumiditySensor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(WindVelocitySensor.class.getName()).log(Level.SEVERE, null, ex);
+                currentThread().interrupt();
             }
         }
     }
-
 
 }

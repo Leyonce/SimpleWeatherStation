@@ -17,46 +17,52 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sensorapp.datahelper.DBExecute;
+import sensorapp.station.ConcreteDisplay.CurrentConditionsDisplay;
+import sensorapp.station.WeatherData;
 
 /**
- *
- * @author leo
+ * Sensor abstract class responsible for implementing common functionalities
+ * between the sensors. Every sensor must extend this class which also extends
+ * the Thread class. As such every sensor is implemented as a thread.
  */
 public abstract class Sensor extends Thread {
 
-    /**
-     * * Sensor Abstract class, all sensors must extend this class
-     */
     protected Location location;
     protected String sensor_name;
 
-    protected String sensor_id ;
+    protected String sensor_id;
 
     protected SensorData sensorData = null;
     protected SensorDataList sensorDataList = null;
 
     protected Status status = Status.OFF;
-    protected String sensorType = null;
-    protected String siUnit = null;
 
+    protected String sensorType;
+
+    protected String siUnit;
+
+    public Sensor() {
+
+        this.sensor_name = "NO Name";
+        this.sensorType = "NO Type";
+    }
+
+    /**
+     * Sensor constructor, sets the name of the sensor, the type of the sensor
+     * and instantiate the sensor data List ArrayList
+     */
     public Sensor(String sensor_name, String sensorType) {
-        /**
-         * *Sensor constructor, sets the name of the sensor, the type of the
-         * sensor and instantiate the sensor data List ArrayList
-         */
-        this.sensor_name =sensor_name;
+        this.sensor_name = sensor_name;
         this.sensorType = sensorType;
         this.sensorDataList = new SensorDataList();
         this.sensor_id = this.MD5Code(sensor_name);
     }
-    
-    
-    
+
+    /**
+     * *Sensor constructor, sets the name of the sensor, the type of the
+     * sensor, the location and instantiate the sensor data List ArrayList
+     */
     public Sensor(String sensor_name, String sensorType, Location location) {
-        /**
-         * *Sensor constructor, sets the name of the sensor, the type of the
-         * sensor, the location and instantiate the sensor data List ArrayList
-         */
         this.sensor_name = sensor_name;
         this.location = location;
         this.sensorType = sensorType;
@@ -65,13 +71,33 @@ public abstract class Sensor extends Thread {
 
     }
 
+    /**
+     * List of sensor data generated in the current session
+     *
+     * @return SensorDataList
+     */
+    public SensorDataList getSensorDataList() {
+        return sensorDataList;
+    }
+
+    /**
+     * Returns the type of the sensor
+     */
+    public String getSensorType() {
+        return sensorType;
+    }
+
+    /**
+     * Returns the name of the sensor
+     */
     public String getSensor_name() {
         return sensor_name;
     }
+
+    /**
+     * * Returns the location of the sensor
+     */
     public Location getLocation() {
-        /**
-         * * Returns the location of the sensor
-         */
         return location;
     }
 
@@ -83,10 +109,10 @@ public abstract class Sensor extends Thread {
         this.location = location;
     }
 
+    /**
+     * * Returns the current sensor data object
+     */
     public SensorData getSensorData() {
-        /**
-         * * Returns the current sensor data object
-         */
         return sensorData;
     }
 
@@ -94,7 +120,10 @@ public abstract class Sensor extends Thread {
 
         this.sensorData.setData(55);
     }
-
+/**
+ * This method generates the data of sensors and inserts the data into the sensor_info table 
+ * @throws SQLException 
+ */
     protected void generateSensorData() throws SQLException {
         Random rn = new Random();
         double number = rn.nextInt(100 - 0 + 1) + 0;
@@ -103,23 +132,18 @@ public abstract class Sensor extends Thread {
         sensorData.setData(number);
         DBExecute.insertSensorDataSQL(this.sensor_id, sensorData.getData(), sensorData.getDate(), this.sensorData.getTime());
 
-//      //notify display  
-//      WeatherData weatherData = new WeatherData();
-//      CurrentConditionsDisplay currentDisplay = new CurrentConditionsDisplay(weatherData); 
-//      weatherData.setMeasurement(sensorData);
+      //notify display  
+      CurrentConditionsDisplay currentDisplay =CurrentConditionsDisplay.getInstance(); 
+        WeatherData.getInstance().setMeasurement(sensorData);
         sensorDataList.addSensorData(sensorData);
+//        System.out.println(currentDisplay.display());
     }
 
-    @Override
-    public String toString() {
-        return " Created sensor called: "
-                + this.sensor_name.toUpperCase()
-                + ".\n The sensor is of type: " + this.sensorType
-                + ". \n The sensor is located at: " + this.location;
-    }
-
+    /**
+     * Generates the unique id of the sensor using the name of the sensor.
+     */
     public String MD5Code(String text) {
-        String hashtext="";
+        String hashtext = "";
         String plaintext = text;
         try {
             MessageDigest m = MessageDigest.getInstance("MD5");
@@ -135,10 +159,23 @@ public abstract class Sensor extends Thread {
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Sensor.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-            
-                    System.out.println(hashtext.substring(0,10));
-        return hashtext.substring(0,10);
+
+        return hashtext.substring(0, 10);
     }
 
+    public String getStatus() {
+        return status.toString();
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return " Created sensor called: "
+                + this.sensor_name.toUpperCase()
+                + ".\n The sensor is of type: " + this.sensorType
+                + ". \n The sensor is located at: " + this.location;
+    }
 }

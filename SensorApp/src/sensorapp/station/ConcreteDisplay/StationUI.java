@@ -17,9 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import sensorapp.constants.SensorType;
 import sensorapp.datahelper.DBExecute;
+import sensorapp.sensors.Sensor;
 import sensorapp.station.Station;
+import sensorapp.station.WeatherData;
 
 /**
  *
@@ -32,11 +35,12 @@ public class StationUI extends javax.swing.JFrame {
      */
     private Station station;
     private static StationUI instance;
+    Sensor currentSensor = null;
 
     private StationUI() {
         this.station = Station.getInstance();
         initComponents();
-
+        sensorDetailPanel.setVisible(false);
         try {
             setComboBoxValues();
         } catch (SQLException ex) {
@@ -55,20 +59,20 @@ public class StationUI extends javax.swing.JFrame {
     }
 
     public void setComboBoxValues() throws SQLException {
-        for (int i = 0; i < DBExecute.getSensors(SensorType.TEMPERATURE.toString()).size(); i++) {
-            TemperatureComboBox.addItem(DBExecute.getSensors(SensorType.TEMPERATURE.toString()).get(i));
+        for (int i = 0; i < DBExecute.getSensorList(SensorType.TEMPERATURE.toString()).size(); i++) {
+            TemperatureComboBox.addItem(DBExecute.getSensorList(SensorType.TEMPERATURE.toString()).get(i));
 
         }
-        for (int i = 0; i < DBExecute.getSensors(SensorType.HUMIDITY.toString()).size(); i++) {
-            HumidityComboBox.addItem(DBExecute.getSensors(SensorType.HUMIDITY.toString()).get(i));
+        for (int i = 0; i < DBExecute.getSensorList(SensorType.HUMIDITY.toString()).size(); i++) {
+            HumidityComboBox.addItem(DBExecute.getSensorList(SensorType.HUMIDITY.toString()).get(i));
 
         }
-        for (int i = 0; i < DBExecute.getSensors(SensorType.PRESSURE.toString()).size(); i++) {
-            PressureComboBox.addItem(DBExecute.getSensors(SensorType.PRESSURE.toString()).get(i));
+        for (int i = 0; i < DBExecute.getSensorList(SensorType.PRESSURE.toString()).size(); i++) {
+            PressureComboBox.addItem(DBExecute.getSensorList(SensorType.PRESSURE.toString()).get(i));
 
         }
-        for (int i = 0; i < DBExecute.getSensors(SensorType.WIND_VELOCITY.toString()).size(); i++) {
-            WindComboBox.addItem(DBExecute.getSensors(SensorType.WIND_VELOCITY.toString()).get(i));
+        for (int i = 0; i < DBExecute.getSensorList(SensorType.WIND_VELOCITY.toString()).size(); i++) {
+            WindComboBox.addItem(DBExecute.getSensorList(SensorType.WIND_VELOCITY.toString()).get(i));
 
         }
     }
@@ -97,7 +101,15 @@ public class StationUI extends javax.swing.JFrame {
         SaturdayTable = new javax.swing.JTable();
         SundayScrollPane = new javax.swing.JScrollPane();
         SundayTable = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
+        sensorDetailPanel = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        StatusTextField = new javax.swing.JTextField();
+        CurrentValueTextField = new javax.swing.JTextField();
+        SensorNameTextField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        StopSensorButton = new javax.swing.JButton();
+        StartSensorButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         TemperatureComboBox = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
@@ -222,26 +234,147 @@ public class StationUI extends javax.swing.JFrame {
 
         jTabbedPane3.addTab("Sun", SundayScrollPane);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        sensorDetailPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 342, Short.MAX_VALUE)
+        jLabel5.setText("Sensor Status:");
+
+        jLabel6.setText("Sensor Current value:");
+
+        StatusTextField.setEditable(false);
+        StatusTextField.setBackground(new java.awt.Color(204, 204, 204));
+        StatusTextField.setFont(new java.awt.Font("Comic Sans MS", 3, 18)); // NOI18N
+        StatusTextField.setText("...");
+        StatusTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatusTextFieldActionPerformed(evt);
+            }
+        });
+
+        CurrentValueTextField.setEditable(false);
+        CurrentValueTextField.setFont(new java.awt.Font("DejaVu Serif", 3, 14)); // NOI18N
+        CurrentValueTextField.setText("...");
+
+        SensorNameTextField.setEditable(false);
+        SensorNameTextField.setBackground(new java.awt.Color(204, 204, 204));
+        SensorNameTextField.setFont(new java.awt.Font("Comic Sans MS", 3, 18)); // NOI18N
+        SensorNameTextField.setText("...");
+        SensorNameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SensorNameTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Sensor Name:");
+
+        StopSensorButton.setText("Stop Sensor");
+        StopSensorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StopSensorButtonActionPerformed(evt);
+            }
+        });
+
+        StartSensorButton.setText("Start Sensor");
+        StartSensorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartSensorButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout sensorDetailPanelLayout = new javax.swing.GroupLayout(sensorDetailPanel);
+        sensorDetailPanel.setLayout(sensorDetailPanelLayout);
+        sensorDetailPanelLayout.setHorizontalGroup(
+            sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel6)
+                                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                                        .addComponent(StartSensorButton)
+                                        .addGap(12, 12, 12)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(StopSensorButton))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SensorNameTextField)
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 187, Short.MAX_VALUE)
+        sensorDetailPanelLayout.setVerticalGroup(
+            sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SensorNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel5)
+                    .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3)
+                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addGap(0, 2, Short.MAX_VALUE)
+                        .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(StopSensorButton)
+                            .addComponent(StartSensorButton))
+                        .addGap(0, 23, Short.MAX_VALUE))
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        TemperatureComboBox.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                TemperatureComboBoxPopupMenuWillBecomeVisible(evt);
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+        TemperatureComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TemperatureComboBoxActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("HUIMIDITY SENSORS");
+
+        HumidityComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HumidityComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("TEMPERATURE SENSORS");
 
+        PressureComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PressureComboBoxActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("PRESSURE SENSORS");
+
+        WindComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                WindComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("WIND VELOCITY SENSORS");
 
@@ -285,7 +418,7 @@ public class StationUI extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(WindComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         Menu.setText("File");
@@ -337,33 +470,33 @@ public class StationUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 166, Short.MAX_VALUE)
+                        .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(178, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 194, Short.MAX_VALUE)
-                        .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(15, Short.MAX_VALUE))))
+                        .addGap(18, 18, 18)
+                        .addComponent(sensorDetailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sensorDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(94, 94, 94))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public JTextField getCurrentValueTextField() {
+        return CurrentValueTextField;
+    }
 
     private void SettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SettingsActionPerformed
         // TODO add your handling code here:
@@ -385,12 +518,87 @@ public class StationUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_CreateSensorActionPerformed
 
+    private void StatusTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StatusTextFieldActionPerformed
+
+    private void TemperatureComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TemperatureComboBoxActionPerformed
+        // TODO add your handling code here:
+        
+        if (currentSensor!=null) {
+            station.stopSensor(currentSensor);
+        }
+        String sensorName = TemperatureComboBox.getSelectedItem().toString();
+        SensorNameTextField.setText(sensorName);
+        currentSensor = DBExecute.getSensor(sensorName);
+        StatusTextField.setText(currentSensor.getStatus());
+
+    }//GEN-LAST:event_TemperatureComboBoxActionPerformed
+
+    private void SensorNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SensorNameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SensorNameTextFieldActionPerformed
+
+    private void TemperatureComboBoxPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_TemperatureComboBoxPopupMenuWillBecomeVisible
+        // TODO add your handling code here:
+        sensorDetailPanel.setVisible(true);
+    }//GEN-LAST:event_TemperatureComboBoxPopupMenuWillBecomeVisible
+
+    private void PressureComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PressureComboBoxActionPerformed
+        // TODO add your handling code here:
+         if (currentSensor!=null) {
+            station.stopSensor(currentSensor);
+        }
+        String sensorName = PressureComboBox.getSelectedItem().toString();
+        SensorNameTextField.setText(sensorName);
+        currentSensor = DBExecute.getSensor(sensorName);
+        StatusTextField.setText(currentSensor.getStatus());
+    }//GEN-LAST:event_PressureComboBoxActionPerformed
+
+    private void StartSensorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartSensorButtonActionPerformed
+        // TODO add your handling code here:
+        station.startSensor(currentSensor);
+        StatusTextField.setText(currentSensor.getStatus());
+//        System.out.println(currentSensor.getSensorData().toString());
+
+
+    }//GEN-LAST:event_StartSensorButtonActionPerformed
+
+    private void StopSensorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopSensorButtonActionPerformed
+        // TODO add your handling code here:
+        station.stopSensor(currentSensor);
+        StatusTextField.setText(currentSensor.getStatus());
+    }//GEN-LAST:event_StopSensorButtonActionPerformed
+
+    private void HumidityComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HumidityComboBoxActionPerformed
+        // TODO add your handling code here:
+         if (currentSensor!=null) {
+            station.stopSensor(currentSensor);
+        }
+        String sensorName = HumidityComboBox.getSelectedItem().toString();
+        SensorNameTextField.setText(sensorName);
+        currentSensor = DBExecute.getSensor(sensorName);
+        StatusTextField.setText(currentSensor.getStatus());
+    }//GEN-LAST:event_HumidityComboBoxActionPerformed
+
+    private void WindComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WindComboBoxActionPerformed
+        // TODO add your handling code here:
+         if (currentSensor!=null) {
+            station.stopSensor(currentSensor);
+        }
+        String sensorName = WindComboBox.getSelectedItem().toString();
+        SensorNameTextField.setText(sensorName);
+        currentSensor = DBExecute.getSensor(sensorName);
+        StatusTextField.setText(currentSensor.getStatus());
+    }//GEN-LAST:event_WindComboBoxActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CreateSensor;
+    private javax.swing.JTextField CurrentValueTextField;
     private javax.swing.JScrollPane FridayScrollPane;
     private javax.swing.JTable FridayTable;
     private javax.swing.JComboBox HumidityComboBox;
@@ -402,7 +610,11 @@ public class StationUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem RemoveSensor;
     private javax.swing.JScrollPane SaturdayScrollPane;
     private javax.swing.JTable SaturdayTable;
+    private javax.swing.JTextField SensorNameTextField;
     private javax.swing.JMenuItem Settings;
+    private javax.swing.JButton StartSensorButton;
+    private javax.swing.JTextField StatusTextField;
+    private javax.swing.JButton StopSensorButton;
     private javax.swing.JScrollPane SundayScrollPane;
     private javax.swing.JTable SundayTable;
     private javax.swing.JComboBox TemperatureComboBox;
@@ -417,11 +629,14 @@ public class StationUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane3;
+    private javax.swing.JPanel sensorDetailPanel;
     // End of variables declaration//GEN-END:variables
 
     public Station getStation() {
@@ -471,8 +686,6 @@ public class StationUI extends javax.swing.JFrame {
     public void setMenu(JMenu Menu) {
         this.Menu = Menu;
     }
-
-  
 
     public void setMenuBar(JMenuBar MenuBar) {
         this.MenuBar = MenuBar;
@@ -663,11 +876,11 @@ public class StationUI extends javax.swing.JFrame {
     }
 
     public JPanel getjPanel2() {
-        return jPanel2;
+        return sensorDetailPanel;
     }
 
     public void setjPanel2(JPanel jPanel2) {
-        this.jPanel2 = jPanel2;
+        this.sensorDetailPanel = jPanel2;
     }
 
     public JPanel getjPanel3() {

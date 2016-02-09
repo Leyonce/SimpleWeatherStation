@@ -24,6 +24,7 @@ class WindVelocitySensor extends Sensor {
 
     public WindVelocitySensor(String name,String type, Location location) {
         super(name,type, location);
+        this.siUnit = "km/s";
 
     }
 
@@ -39,7 +40,7 @@ class WindVelocitySensor extends Sensor {
                     Logger.getLogger(WindVelocitySensor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(WindVelocitySensor.class.getName()).log(Level.SEVERE, null, ex);
+                     currentThread().interrupt();
             }
         }
     }

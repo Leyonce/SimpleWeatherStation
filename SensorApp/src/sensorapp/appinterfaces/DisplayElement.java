@@ -10,5 +10,5 @@ package sensorapp.appinterfaces;
  */
 public interface DisplayElement {
     
-    public void display();
+    public String display();
 }
