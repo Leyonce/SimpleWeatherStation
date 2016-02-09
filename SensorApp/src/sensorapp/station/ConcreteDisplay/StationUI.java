@@ -5,6 +5,22 @@
  */
 package sensorapp.station.ConcreteDisplay;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import sensorapp.constants.SensorType;
+import sensorapp.datahelper.DBExecute;
+import sensorapp.station.Station;
+
 /**
  *
  * @author leo
@@ -14,8 +30,47 @@ public class StationUI extends javax.swing.JFrame {
     /**
      * Creates new form StationUI
      */
-    public StationUI() {
+    private Station station;
+    private static StationUI instance;
+
+    private StationUI() {
+        this.station = Station.getInstance();
         initComponents();
+
+        try {
+            setComboBoxValues();
+        } catch (SQLException ex) {
+            Logger.getLogger(StationUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static StationUI getInstance() {
+        if (instance == null) {
+            instance = new StationUI();
+
+        }
+
+        return instance;
+    }
+
+    public void setComboBoxValues() throws SQLException {
+        for (int i = 0; i < DBExecute.getSensors(SensorType.TEMPERATURE.toString()).size(); i++) {
+            TemperatureComboBox.addItem(DBExecute.getSensors(SensorType.TEMPERATURE.toString()).get(i));
+
+        }
+        for (int i = 0; i < DBExecute.getSensors(SensorType.HUMIDITY.toString()).size(); i++) {
+            HumidityComboBox.addItem(DBExecute.getSensors(SensorType.HUMIDITY.toString()).get(i));
+
+        }
+        for (int i = 0; i < DBExecute.getSensors(SensorType.PRESSURE.toString()).size(); i++) {
+            PressureComboBox.addItem(DBExecute.getSensors(SensorType.PRESSURE.toString()).get(i));
+
+        }
+        for (int i = 0; i < DBExecute.getSensors(SensorType.WIND_VELOCITY.toString()).size(); i++) {
+            WindComboBox.addItem(DBExecute.getSensors(SensorType.WIND_VELOCITY.toString()).get(i));
+
+        }
     }
 
     /**
@@ -28,34 +83,41 @@ public class StationUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane3 = new javax.swing.JTabbedPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTable6 = new javax.swing.JTable();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jTable7 = new javax.swing.JTable();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        SensorList = new javax.swing.JList();
-        jPanel1 = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        MondayScrollPane = new javax.swing.JScrollPane();
+        MondayTable = new javax.swing.JTable();
+        TuesdayScrollPane = new javax.swing.JScrollPane();
+        TuesdayTable = new javax.swing.JTable();
+        WednesdayScrollPane = new javax.swing.JScrollPane();
+        WednesdayTable = new javax.swing.JTable();
+        ThursdayScrollPane = new javax.swing.JScrollPane();
+        ThursdayTable = new javax.swing.JTable();
+        FridayScrollPane = new javax.swing.JScrollPane();
+        FridayTable = new javax.swing.JTable();
+        SaturdayScrollPane = new javax.swing.JScrollPane();
+        SaturdayTable = new javax.swing.JTable();
+        SundayScrollPane = new javax.swing.JScrollPane();
+        SundayTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        TemperatureComboBox = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        HumidityComboBox = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        PressureComboBox = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        WindComboBox = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        MenuBar = new javax.swing.JMenuBar();
+        Menu = new javax.swing.JMenu();
+        CreateSensor = new javax.swing.JMenuItem();
+        Settings = new javax.swing.JMenuItem();
+        RemoveSensor = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        MondayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -66,11 +128,11 @@ public class StationUI extends javax.swing.JFrame {
                 "Time", "Value"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        MondayScrollPane.setViewportView(MondayTable);
 
-        jTabbedPane3.addTab("Mon", jScrollPane1);
+        jTabbedPane3.addTab("Mon", MondayScrollPane);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        TuesdayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -81,11 +143,11 @@ public class StationUI extends javax.swing.JFrame {
                 "Time", "Value"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        TuesdayScrollPane.setViewportView(TuesdayTable);
 
-        jTabbedPane3.addTab("Tue", jScrollPane2);
+        jTabbedPane3.addTab("Tue", TuesdayScrollPane);
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        WednesdayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -96,11 +158,11 @@ public class StationUI extends javax.swing.JFrame {
                 "Time", "Value"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        WednesdayScrollPane.setViewportView(WednesdayTable);
 
-        jTabbedPane3.addTab("Wed", jScrollPane3);
+        jTabbedPane3.addTab("Wed", WednesdayScrollPane);
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        ThursdayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -111,11 +173,11 @@ public class StationUI extends javax.swing.JFrame {
                 "Time", "Value"
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        ThursdayScrollPane.setViewportView(ThursdayTable);
 
-        jTabbedPane3.addTab("Thu", jScrollPane4);
+        jTabbedPane3.addTab("Thu", ThursdayScrollPane);
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        FridayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -126,11 +188,11 @@ public class StationUI extends javax.swing.JFrame {
                 "Time", "Value"
             }
         ));
-        jScrollPane5.setViewportView(jTable5);
+        FridayScrollPane.setViewportView(FridayTable);
 
-        jTabbedPane3.addTab("Fri", jScrollPane5);
+        jTabbedPane3.addTab("Fri", FridayScrollPane);
 
-        jTable6.setModel(new javax.swing.table.DefaultTableModel(
+        SaturdayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -141,11 +203,11 @@ public class StationUI extends javax.swing.JFrame {
                 "Time", "Value"
             }
         ));
-        jScrollPane6.setViewportView(jTable6);
+        SaturdayScrollPane.setViewportView(SaturdayTable);
 
-        jTabbedPane3.addTab("Sat", jScrollPane6);
+        jTabbedPane3.addTab("Sat", SaturdayScrollPane);
 
-        jTable7.setModel(new javax.swing.table.DefaultTableModel(
+        SundayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -156,150 +218,471 @@ public class StationUI extends javax.swing.JFrame {
                 "Time", "Value"
             }
         ));
-        jScrollPane7.setViewportView(jTable7);
+        SundayScrollPane.setViewportView(SundayTable);
 
-        jTabbedPane3.addTab("Sun", jScrollPane7);
+        jTabbedPane3.addTab("Sun", SundayScrollPane);
 
-        SensorList.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        SensorList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane8.setViewportView(SensorList);
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 342, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 124, Short.MAX_VALUE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 187, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jMenuItem2.setText("Create Sensor");
-        jMenu1.add(jMenuItem2);
+        jLabel3.setText("HUIMIDITY SENSORS");
 
-        jMenuItem1.setText("Remove Sensor");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setText("TEMPERATURE SENSORS");
+
+        jLabel2.setText("PRESSURE SENSORS");
+
+        jLabel4.setText("WIND VELOCITY SENSORS");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(PressureComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(WindComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(HumidityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(TemperatureComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(TemperatureComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PressureComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(HumidityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(WindComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+
+        Menu.setText("File");
+
+        CreateSensor.setText("Create Sensor");
+        CreateSensor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                CreateSensorActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        Menu.add(CreateSensor);
 
-        jMenuItem3.setText("Settings");
-        jMenu1.add(jMenuItem3);
+        Settings.setText("Settings");
+        Settings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SettingsActionPerformed(evt);
+            }
+        });
+        Menu.add(Settings);
 
-        jMenuBar1.add(jMenu1);
+        RemoveSensor.setText("Remove Sensor");
+        RemoveSensor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveSensorActionPerformed(evt);
+            }
+        });
+        Menu.add(RemoveSensor);
+
+        MenuBar.add(Menu);
 
         jMenu2.setText("Edit");
 
         jMenuItem4.setText("Edit Sensor");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
-        jMenuBar1.add(jMenu2);
+        MenuBar.add(jMenu2);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTabbedPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 194, Short.MAX_VALUE)
+                        .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(15, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(90, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void SettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SettingsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_SettingsActionPerformed
+
+    private void RemoveSensorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveSensorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RemoveSensorActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void CreateSensorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateSensorActionPerformed
+        // TODO add your handling code here:
+        CreateSensorUI createSensor = new CreateSensorUI();
+        createSensor.setVisible(true);
+
+
+    }//GEN-LAST:event_CreateSensorActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StationUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StationUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StationUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StationUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StationUI().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList SensorList;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem CreateSensor;
+    private javax.swing.JScrollPane FridayScrollPane;
+    private javax.swing.JTable FridayTable;
+    private javax.swing.JComboBox HumidityComboBox;
+    private javax.swing.JMenu Menu;
+    private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JScrollPane MondayScrollPane;
+    private javax.swing.JTable MondayTable;
+    private javax.swing.JComboBox PressureComboBox;
+    private javax.swing.JMenuItem RemoveSensor;
+    private javax.swing.JScrollPane SaturdayScrollPane;
+    private javax.swing.JTable SaturdayTable;
+    private javax.swing.JMenuItem Settings;
+    private javax.swing.JScrollPane SundayScrollPane;
+    private javax.swing.JTable SundayTable;
+    private javax.swing.JComboBox TemperatureComboBox;
+    private javax.swing.JScrollPane ThursdayScrollPane;
+    private javax.swing.JTable ThursdayTable;
+    private javax.swing.JScrollPane TuesdayScrollPane;
+    private javax.swing.JTable TuesdayTable;
+    private javax.swing.JScrollPane WednesdayScrollPane;
+    private javax.swing.JTable WednesdayTable;
+    private javax.swing.JComboBox WindComboBox;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
-    private javax.swing.JTable jTable6;
-    private javax.swing.JTable jTable7;
     // End of variables declaration//GEN-END:variables
+
+    public Station getStation() {
+        return station;
+    }
+
+    public void setStation(Station station) {
+        this.station = station;
+    }
+
+    public JMenuItem getCreateSensor() {
+        return CreateSensor;
+    }
+
+    public void setCreateSensor(JMenuItem CreateSensor) {
+        this.CreateSensor = CreateSensor;
+    }
+
+    public JScrollPane getFridayScrollPane() {
+        return FridayScrollPane;
+    }
+
+    public void setFridayScrollPane(JScrollPane FridayScrollPane) {
+        this.FridayScrollPane = FridayScrollPane;
+    }
+
+    public JTable getFridayTable() {
+        return FridayTable;
+    }
+
+    public void setFridayTable(JTable FridayTable) {
+        this.FridayTable = FridayTable;
+    }
+
+    public JComboBox getHumidityComboBox() {
+        return HumidityComboBox;
+    }
+
+    public void setHumidityComboBox(JComboBox HumidityComboBox) {
+        this.HumidityComboBox = HumidityComboBox;
+    }
+
+    public JMenu getMenu() {
+        return Menu;
+    }
+
+    public void setMenu(JMenu Menu) {
+        this.Menu = Menu;
+    }
+
+  
+
+    public void setMenuBar(JMenuBar MenuBar) {
+        this.MenuBar = MenuBar;
+    }
+
+    public JScrollPane getMondayScrollPane() {
+        return MondayScrollPane;
+    }
+
+    public void setMondayScrollPane(JScrollPane MondayScrollPane) {
+        this.MondayScrollPane = MondayScrollPane;
+    }
+
+    public JTable getMondayTable() {
+        return MondayTable;
+    }
+
+    public void setMondayTable(JTable MondayTable) {
+        this.MondayTable = MondayTable;
+    }
+
+    public JComboBox getPressureComboBox() {
+        return PressureComboBox;
+    }
+
+    public void setPressureComboBox(JComboBox PressureComboBox) {
+        this.PressureComboBox = PressureComboBox;
+    }
+
+    public JMenuItem getRemoveSensor() {
+        return RemoveSensor;
+    }
+
+    public void setRemoveSensor(JMenuItem RemoveSensor) {
+        this.RemoveSensor = RemoveSensor;
+    }
+
+    public JScrollPane getSaturdayScrollPane() {
+        return SaturdayScrollPane;
+    }
+
+    public void setSaturdayScrollPane(JScrollPane SaturdayScrollPane) {
+        this.SaturdayScrollPane = SaturdayScrollPane;
+    }
+
+    public JTable getSaturdayTable() {
+        return SaturdayTable;
+    }
+
+    public void setSaturdayTable(JTable SaturdayTable) {
+        this.SaturdayTable = SaturdayTable;
+    }
+
+    public JMenuItem getSettings() {
+        return Settings;
+    }
+
+    public void setSettings(JMenuItem Settings) {
+        this.Settings = Settings;
+    }
+
+    public JScrollPane getSundayScrollPane() {
+        return SundayScrollPane;
+    }
+
+    public void setSundayScrollPane(JScrollPane SundayScrollPane) {
+        this.SundayScrollPane = SundayScrollPane;
+    }
+
+    public JTable getSundayTable() {
+        return SundayTable;
+    }
+
+    public void setSundayTable(JTable SundayTable) {
+        this.SundayTable = SundayTable;
+    }
+
+    public JComboBox getTemperatureComboBox() {
+        return TemperatureComboBox;
+    }
+
+    public void setTemperatureComboBox(JComboBox TemperatureComboBox) {
+        this.TemperatureComboBox = TemperatureComboBox;
+    }
+
+    public JScrollPane getThursdayScrollPane() {
+        return ThursdayScrollPane;
+    }
+
+    public void setThursdayScrollPane(JScrollPane ThursdayScrollPane) {
+        this.ThursdayScrollPane = ThursdayScrollPane;
+    }
+
+    public JTable getThursdayTable() {
+        return ThursdayTable;
+    }
+
+    public void setThursdayTable(JTable ThursdayTable) {
+        this.ThursdayTable = ThursdayTable;
+    }
+
+    public JScrollPane getTuesdayScrollPane() {
+        return TuesdayScrollPane;
+    }
+
+    public void setTuesdayScrollPane(JScrollPane TuesdayScrollPane) {
+        this.TuesdayScrollPane = TuesdayScrollPane;
+    }
+
+    public JTable getTuesdayTable() {
+        return TuesdayTable;
+    }
+
+    public void setTuesdayTable(JTable TuesdayTable) {
+        this.TuesdayTable = TuesdayTable;
+    }
+
+    public JScrollPane getWednesdayScrollPane() {
+        return WednesdayScrollPane;
+    }
+
+    public void setWednesdayScrollPane(JScrollPane WednesdayScrollPane) {
+        this.WednesdayScrollPane = WednesdayScrollPane;
+    }
+
+    public JTable getWednesdayTable() {
+        return WednesdayTable;
+    }
+
+    public void setWednesdayTable(JTable WednesdayTable) {
+        this.WednesdayTable = WednesdayTable;
+    }
+
+    public JComboBox getWindComboBox() {
+        return WindComboBox;
+    }
+
+    public void setWindComboBox(JComboBox WindComboBox) {
+        this.WindComboBox = WindComboBox;
+    }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public void setjLabel2(JLabel jLabel2) {
+        this.jLabel2 = jLabel2;
+    }
+
+    public JLabel getjLabel3() {
+        return jLabel3;
+    }
+
+    public void setjLabel3(JLabel jLabel3) {
+        this.jLabel3 = jLabel3;
+    }
+
+    public JLabel getjLabel4() {
+        return jLabel4;
+    }
+
+    public void setjLabel4(JLabel jLabel4) {
+        this.jLabel4 = jLabel4;
+    }
+
+    public JMenu getjMenu2() {
+        return jMenu2;
+    }
+
+    public void setjMenu2(JMenu jMenu2) {
+        this.jMenu2 = jMenu2;
+    }
+
+    public JMenuItem getjMenuItem4() {
+        return jMenuItem4;
+    }
+
+    public void setjMenuItem4(JMenuItem jMenuItem4) {
+        this.jMenuItem4 = jMenuItem4;
+    }
+
+    public JPanel getjPanel2() {
+        return jPanel2;
+    }
+
+    public void setjPanel2(JPanel jPanel2) {
+        this.jPanel2 = jPanel2;
+    }
+
+    public JPanel getjPanel3() {
+        return jPanel3;
+    }
+
+    public void setjPanel3(JPanel jPanel3) {
+        this.jPanel3 = jPanel3;
+    }
+
+    public JTabbedPane getjTabbedPane3() {
+        return jTabbedPane3;
+    }
+
+    public void setjTabbedPane3(JTabbedPane jTabbedPane3) {
+        this.jTabbedPane3 = jTabbedPane3;
+    }
 }

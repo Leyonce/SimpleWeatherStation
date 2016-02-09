@@ -19,14 +19,14 @@ import java.util.logging.Logger;
  */
 class TemperatureSensor extends Sensor {
 
-    public TemperatureSensor(String name, SensorType type) {
+    public TemperatureSensor(String name, String type) {
         super(name, type);
         this.siUnit = "°C";
 
     }
 
-    public TemperatureSensor(String name, Location location) {
-        super(name, location);
+    public TemperatureSensor(String name,String type, Location location) {
+        super(name,type, location);
 
     }
 

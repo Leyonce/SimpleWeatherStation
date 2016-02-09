@@ -16,14 +16,14 @@ import java.util.logging.Logger;
  */
 class WindVelocitySensor extends Sensor {
 
-    public WindVelocitySensor(String name, SensorType type) {
+    public WindVelocitySensor(String name, String type) {
         super(name, type);
         this.siUnit = "km/s";
 
     }
 
-    public WindVelocitySensor(String name, Location location) {
-        super(name, location);
+    public WindVelocitySensor(String name,String type, Location location) {
+        super(name,type, location);
 
     }
 

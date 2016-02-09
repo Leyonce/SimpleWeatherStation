@@ -7,6 +7,8 @@ package sensorapp.datahelper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sensorapp.constants.DBType;
 
 /**
@@ -30,10 +32,16 @@ public class DBUtil {
         return DBInstance;
                
     } 
-    public static Connection getConnection (DBType dBType) throws SQLException{
+    public static Connection getConnection (DBType dBType) {
         switch (dBType) {
             case POSTGRESQL:
+        {
+            try {
                 return DriverManager.getConnection(P_CONN_STRING, USERNAME, PASSWORD);
+            } catch (SQLException ex) {
+                Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
             default :
                 return null;
         }

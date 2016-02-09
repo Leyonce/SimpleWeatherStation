@@ -27,11 +27,13 @@ public class SensorList {
         this.list = new ArrayList();
     }
 
-    void addSensor(Sensor sensor) {
+    public void addSensor(Sensor sensor) {
         list.add(sensor);
+        
+                
     }
 
-    void removeSenor(Sensor sensor) {
+    public void removeSenor(Sensor sensor) {
         int i = list.indexOf(sensor);
         if (i >= 0) {
             list.remove(sensor);

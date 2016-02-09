@@ -8,8 +8,6 @@ import sensorapp.sensors.pojo.Location;
 import sensorapp.constants.SensorType;
 import static java.lang.Thread.sleep;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,14 +17,14 @@ import java.util.logging.Logger;
  */
 class HumiditySensor extends Sensor {
 
-    public HumiditySensor(String name,SensorType type) {
+    public HumiditySensor(String name,String type) {
         super(name, type);
         this.siUnit = "hum";
 
     }
 
-    public HumiditySensor(String name, Location location) {
-        super(name, location);
+    public HumiditySensor(String name,String type, Location location) {
+        super(name,type, location);
 
     }
 
