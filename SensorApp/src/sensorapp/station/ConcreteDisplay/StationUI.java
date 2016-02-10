@@ -550,19 +550,7 @@ public class StationUI extends javax.swing.JFrame {
         }
         String sensorName = TemperatureComboBox.getSelectedItem().toString();
         SensorNameTextField.setText(sensorName);
-        if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
-
-            if (!parseList(sensorName)) {
-                currentSensor = DBExecute.getSensorFromTable(sensorName);
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
-
-            }
-        } else { //if list of running sensors is empty
-            currentSensor = DBExecute.getSensorFromTable(sensorName);
-            StatusTextField.setText(currentSensor.getStatus());
-            System.out.println("Created Sensor from db out of List");
-        }
+        activateCurrentSensor(sensorName);
 
 
     }//GEN-LAST:event_TemperatureComboBoxActionPerformed
@@ -587,20 +575,7 @@ public class StationUI extends javax.swing.JFrame {
             }
         }
         String sensorName = PressureComboBox.getSelectedItem().toString();
-        SensorNameTextField.setText(sensorName);
-        if (!station.getSensorList().getList().isEmpty()) {
-
-            if (!parseList(sensorName)) {
-                currentSensor = DBExecute.getSensorFromTable(sensorName);
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
-
-            }
-        } else { //if list of running sensors is empty
-            currentSensor = DBExecute.getSensorFromTable(sensorName);
-            StatusTextField.setText(currentSensor.getStatus());
-            System.out.println("Created Sensor from db out of List");
-        }
+        activateCurrentSensor(sensorName);
 
 
     }//GEN-LAST:event_PressureComboBoxActionPerformed
@@ -662,21 +637,7 @@ public class StationUI extends javax.swing.JFrame {
             }
         }
         String sensorName = HumidityComboBox.getSelectedItem().toString();
-        SensorNameTextField.setText(sensorName);
-        if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
-            
-            if (!parseList(sensorName)) {
-                currentSensor = DBExecute.getSensorFromTable(sensorName);
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
-
-            }
-        } else { //if list of running sensors is empty
-            currentSensor = DBExecute.getSensorFromTable(sensorName);
-            StatusTextField.setText(currentSensor.getStatus());
-            System.out.println("Created Sensor from db out of List");
-        }
-
+        activateCurrentSensor(sensorName);
 
     }//GEN-LAST:event_HumidityComboBoxActionPerformed
 
@@ -691,6 +652,12 @@ public class StationUI extends javax.swing.JFrame {
             }
         }
         String sensorName = WindComboBox.getSelectedItem().toString();
+        activateCurrentSensor(sensorName);
+
+
+    }//GEN-LAST:event_WindComboBoxActionPerformed
+
+    private void activateCurrentSensor(String sensorName) {
         SensorNameTextField.setText(sensorName);
         if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
             
@@ -698,16 +665,14 @@ public class StationUI extends javax.swing.JFrame {
                 currentSensor = DBExecute.getSensorFromTable(sensorName);
                 StatusTextField.setText(currentSensor.getStatus());
                 System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
-
+                
             }
         } else { //if list of running sensors is empty
             currentSensor = DBExecute.getSensorFromTable(sensorName);
             StatusTextField.setText(currentSensor.getStatus());
             System.out.println("Created Sensor from db out of List");
         }
-
-
-    }//GEN-LAST:event_WindComboBoxActionPerformed
+    }
 
     /**
      * @param args the command line arguments
