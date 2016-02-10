@@ -108,7 +108,7 @@ public class DBExecute {
      * @param sensorName name of sensor in the database
      * @return sensor
      */
-    public static Sensor getSensor(String sensorName) {
+    public static Sensor getSensorFromTable(String sensorName) {
 
         ResultSet rs = null;
 

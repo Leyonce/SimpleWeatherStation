@@ -134,7 +134,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextPane" name="SensorName">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Enter Name..."/>
+                <Property name="text" type="java.lang.String" value="Enter UNIQUE Name..."/>
               </Properties>
             </Component>
           </SubComponents>

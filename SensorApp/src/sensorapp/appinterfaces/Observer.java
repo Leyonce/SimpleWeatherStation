@@ -4,6 +4,7 @@
  */
 package sensorapp.appinterfaces;
 
+import sensorapp.sensors.Sensor;
 import sensorapp.sensors.pojo.SensorData;
 
 /**
@@ -11,6 +12,6 @@ import sensorapp.sensors.pojo.SensorData;
  * @author leo
  */
 public interface Observer {
-    public void update(SensorData data);
+    public void update(SensorData data, Sensor sensor);
     
 }

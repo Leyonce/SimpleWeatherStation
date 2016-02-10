@@ -22,17 +22,14 @@ import sensorapp.constants.SensorType;
 import sensorapp.datahelper.DBExecute;
 import sensorapp.sensors.Sensor;
 import sensorapp.station.Station;
-import sensorapp.station.WeatherData;
 
 /**
+ * Station user Interface
  *
  * @author leo
  */
 public class StationUI extends javax.swing.JFrame {
 
-    /**
-     * Creates new form StationUI
-     */
     private Station station;
     private static StationUI instance;
     Sensor currentSensor = null;
@@ -58,6 +55,11 @@ public class StationUI extends javax.swing.JFrame {
         return instance;
     }
 
+    /**
+     * Initialize the values of the various comboBoxes
+     *
+     * @throws SQLException
+     */
     public void setComboBoxValues() throws SQLException {
         for (int i = 0; i < DBExecute.getSensorList(SensorType.TEMPERATURE.toString()).size(); i++) {
             TemperatureComboBox.addItem(DBExecute.getSensorList(SensorType.TEMPERATURE.toString()).get(i));
@@ -266,6 +268,7 @@ public class StationUI extends javax.swing.JFrame {
 
         jLabel7.setText("Sensor Name:");
 
+        StopSensorButton.setForeground(new java.awt.Color(255, 0, 0));
         StopSensorButton.setText("Stop Sensor");
         StopSensorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -273,6 +276,7 @@ public class StationUI extends javax.swing.JFrame {
             }
         });
 
+        StartSensorButton.setForeground(new java.awt.Color(102, 102, 255));
         StartSensorButton.setText("Start Sensor");
         StartSensorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -289,16 +293,9 @@ public class StationUI extends javax.swing.JFrame {
                 .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(sensorDetailPanelLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(sensorDetailPanelLayout.createSequentialGroup()
-                                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6)
-                                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
-                                        .addComponent(StartSensorButton)
-                                        .addGap(12, 12, 12)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(StopSensorButton))
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(sensorDetailPanelLayout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -309,6 +306,15 @@ public class StationUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sensorDetailPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addComponent(StartSensorButton)
+                        .addGap(12, 12, 12)
+                        .addGap(123, 123, 123))
+                    .addComponent(StopSensorButton))
+                .addGap(109, 109, 109))
         );
         sensorDetailPanelLayout.setVerticalGroup(
             sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,19 +325,14 @@ public class StationUI extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(jLabel5)
                     .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3)
-                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
-                        .addGap(0, 2, Short.MAX_VALUE)
-                        .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(StopSensorButton)
-                            .addComponent(StartSensorButton))
-                        .addGap(0, 23, Short.MAX_VALUE))
-                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(StopSensorButton)
+                    .addComponent(StartSensorButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -484,8 +485,8 @@ public class StationUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sensorDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sensorDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(94, 94, 94))
@@ -509,7 +510,11 @@ public class StationUI extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem4ActionPerformed
-
+    /**
+     * Call JFrame to be able to create sensors
+     *
+     * @param evt
+     */
     private void CreateSensorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateSensorActionPerformed
         // TODO add your handling code here:
         CreateSensorUI createSensor = new CreateSensorUI();
@@ -521,17 +526,52 @@ public class StationUI extends javax.swing.JFrame {
     private void StatusTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_StatusTextFieldActionPerformed
-
+    /**
+     * This method should get the current sensor if it is not null and add it to
+     * the list of temperature sensors(threads presently running) Using this
+     * list figure out whether a thread for this specific selected sensor does
+     * not already exist. If the thread exists already in memory set it as
+     * current sensor otherwise, create a new sensor thread and set it as
+     * current sensor.
+     *
+     * @param evt
+     */
     private void TemperatureComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TemperatureComboBoxActionPerformed
         // TODO add your handling code here:
-        
-        if (currentSensor!=null) {
-            station.stopSensor(currentSensor);
+
+        if (currentSensor != null) {
+//            station.stopSensor(currentSensor);
+            if (currentSensor.isAlive()) {
+
+//            Save sensor thread
+                station.getSensorList().addSensor(currentSensor);
+                System.out.println("Saved Thread");
+            }
         }
         String sensorName = TemperatureComboBox.getSelectedItem().toString();
         SensorNameTextField.setText(sensorName);
-        currentSensor = DBExecute.getSensor(sensorName);
-        StatusTextField.setText(currentSensor.getStatus());
+        if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
+            for (int i = 0; i < station.getSensorList().getList().size(); i++) {
+            Sensor s = (Sensor) station.getSensorList().getList().get(i);
+            if (sensorName.equals(s.getSensor_name())) {
+                currentSensor = s; // set current sensor to already running sensor
+                station.getSensorList().removeSenor(s); //remove sensor from list
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Took previous sensor value");
+
+            } else {
+                currentSensor = DBExecute.getSensorFromTable(sensorName);
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Created Sensor from db");
+
+            }
+        }
+        } else { //if list of running sensors is empty
+            currentSensor = DBExecute.getSensorFromTable(sensorName);
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Created Sensor from db out of List");
+        }
+
 
     }//GEN-LAST:event_TemperatureComboBoxActionPerformed
 
@@ -546,15 +586,46 @@ public class StationUI extends javax.swing.JFrame {
 
     private void PressureComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PressureComboBoxActionPerformed
         // TODO add your handling code here:
-         if (currentSensor!=null) {
-            station.stopSensor(currentSensor);
+      if (currentSensor != null) {
+//            station.stopSensor(currentSensor);
+            if (currentSensor.isAlive()) {
+
+//            Save sensor thread
+                station.getSensorList().addSensor(currentSensor);
+                System.out.println("Saved Thread");
+            }
         }
         String sensorName = PressureComboBox.getSelectedItem().toString();
         SensorNameTextField.setText(sensorName);
-        currentSensor = DBExecute.getSensor(sensorName);
-        StatusTextField.setText(currentSensor.getStatus());
-    }//GEN-LAST:event_PressureComboBoxActionPerformed
+        if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
+            for (int i = 0; i < station.getSensorList().getList().size(); i++) {
+            Sensor s = (Sensor) station.getSensorList().getList().get(i);
+            if (sensorName.equals(s.getSensor_name())) {
+                currentSensor = s; // set current sensor to already running sensor
+                station.getSensorList().removeSenor(s); //remove sensor from list
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Took previous sensor value");
 
+            } else {
+                currentSensor = DBExecute.getSensorFromTable(sensorName);
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Created Sensor from db");
+
+            }
+        }
+        } else { //if list of running sensors is empty
+            currentSensor = DBExecute.getSensorFromTable(sensorName);
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Created Sensor from db out of List");
+        }
+
+
+    }//GEN-LAST:event_PressureComboBoxActionPerformed
+    /**
+     * Start the current sensor selected by user
+     *
+     * @param evt
+     */
     private void StartSensorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartSensorButtonActionPerformed
         // TODO add your handling code here:
         station.startSensor(currentSensor);
@@ -563,7 +634,11 @@ public class StationUI extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_StartSensorButtonActionPerformed
-
+    /**
+     * Stop current sensor selected by user
+     *
+     * @param evt
+     */
     private void StopSensorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopSensorButtonActionPerformed
         // TODO add your handling code here:
         station.stopSensor(currentSensor);
@@ -571,25 +646,77 @@ public class StationUI extends javax.swing.JFrame {
     }//GEN-LAST:event_StopSensorButtonActionPerformed
 
     private void HumidityComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HumidityComboBoxActionPerformed
-        // TODO add your handling code here:
-         if (currentSensor!=null) {
-            station.stopSensor(currentSensor);
+       if (currentSensor != null) {
+//            station.stopSensor(currentSensor);
+            if (currentSensor.isAlive()) {
+
+//            Save sensor thread
+                station.getSensorList().addSensor(currentSensor);
+                System.out.println("Saved Thread");
+            }
         }
         String sensorName = HumidityComboBox.getSelectedItem().toString();
         SensorNameTextField.setText(sensorName);
-        currentSensor = DBExecute.getSensor(sensorName);
-        StatusTextField.setText(currentSensor.getStatus());
+        if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
+            for (int i = 0; i < station.getSensorList().getList().size(); i++) {
+            Sensor s = (Sensor) station.getSensorList().getList().get(i);
+            if (sensorName.equals(s.getSensor_name())) {
+                currentSensor = s; // set current sensor to already running sensor
+                station.getSensorList().removeSenor(s); //remove sensor from list
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Took previous sensor value");
+
+            } else {
+                currentSensor = DBExecute.getSensorFromTable(sensorName);
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Created Sensor from db");
+
+            }
+        }
+        } else { //if list of running sensors is empty
+            currentSensor = DBExecute.getSensorFromTable(sensorName);
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Created Sensor from db out of List");
+        }
+
+
     }//GEN-LAST:event_HumidityComboBoxActionPerformed
 
     private void WindComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WindComboBoxActionPerformed
-        // TODO add your handling code here:
-         if (currentSensor!=null) {
-            station.stopSensor(currentSensor);
+       if (currentSensor != null) {
+//            station.stopSensor(currentSensor);
+            if (currentSensor.isAlive()) {
+
+//            Save sensor thread
+                station.getSensorList().addSensor(currentSensor);
+                System.out.println("Saved Thread");
+            }
         }
         String sensorName = WindComboBox.getSelectedItem().toString();
         SensorNameTextField.setText(sensorName);
-        currentSensor = DBExecute.getSensor(sensorName);
-        StatusTextField.setText(currentSensor.getStatus());
+        if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
+            for (int i = 0; i < station.getSensorList().getList().size(); i++) {
+            Sensor s = (Sensor) station.getSensorList().getList().get(i);
+            if (sensorName.equals(s.getSensor_name())) {
+                currentSensor = s; // set current sensor to already running sensor
+                station.getSensorList().removeSenor(s); //remove sensor from list
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Took previous sensor value");
+
+            } else {
+                currentSensor = DBExecute.getSensorFromTable(sensorName);
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Created Sensor from db");
+
+            }
+        }
+        } else { //if list of running sensors is empty
+            currentSensor = DBExecute.getSensorFromTable(sensorName);
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Created Sensor from db out of List");
+        }
+
+
     }//GEN-LAST:event_WindComboBoxActionPerformed
 
     /**
@@ -897,5 +1024,14 @@ public class StationUI extends javax.swing.JFrame {
 
     public void setjTabbedPane3(JTabbedPane jTabbedPane3) {
         this.jTabbedPane3 = jTabbedPane3;
+    }
+
+    /**
+     * Get the current sensor selected by the user
+     *
+     * @return current selected sensor
+     */
+    public Sensor getCurrentSensor() {
+        return currentSensor;
     }
 }

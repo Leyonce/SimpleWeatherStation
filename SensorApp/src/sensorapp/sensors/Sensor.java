@@ -134,7 +134,7 @@ public abstract class Sensor extends Thread {
 
       //notify display  
       CurrentConditionsDisplay currentDisplay =CurrentConditionsDisplay.getInstance(); 
-        WeatherData.getInstance().setMeasurement(sensorData);
+        WeatherData.getInstance().setMeasurement(sensorData, this);
         sensorDataList.addSensorData(sensorData);
 //        System.out.println(currentDisplay.display());
     }
@@ -178,4 +178,7 @@ public abstract class Sensor extends Thread {
                 + ".\n The sensor is of type: " + this.sensorType
                 + ". \n The sensor is located at: " + this.location;
     }
+    
+    
+   
 }

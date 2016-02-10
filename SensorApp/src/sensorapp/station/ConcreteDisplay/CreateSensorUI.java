@@ -53,7 +53,7 @@ public class CreateSensorUI extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        SensorName.setText("Enter Name...");
+        SensorName.setText("Enter UNIQUE Name...");
         jScrollPane3.setViewportView(SensorName);
 
         jLabel1.setText("Sensor Name:");

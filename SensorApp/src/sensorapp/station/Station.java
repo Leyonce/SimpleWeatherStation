@@ -31,7 +31,7 @@ public class Station {
     public Sensor createSensor(String name, String type, Location location) {
         Sensor sensor;
         sensor = factory.createSensor(name, type, location);
-        sensorList.addSensor(sensor);
+        
         DBExecute.insertSensorSQL(sensor.getSensor_id(), name, type, location.toString());
         return sensor;
     }
@@ -41,28 +41,30 @@ public class Station {
             try {
                 sensor.start();
             } catch (Exception e) {
+                //if thread has already been started, create another thread then start it.
                 currentSensor = createSensor(sensor.getSensor_name(), sensor.getSensorType(), sensor.getLocation());
                 this.startSensor(currentSensor);
             }
             sensor.setStatus(Status.ON);
-            System.out.println(sensor);
+            
         }
     }
 
     public void stopSensor(Sensor sensor) {
             SensorData s= new SensorData();
             s.setData(0.0);
+            s.setSiUnit("");
         if (sensor.isAlive() || !sensor.isInterrupted()) {
 
             sensor.interrupt();
             sensor.setStatus(Status.OFF);
-            WeatherData.getInstance().setMeasurement(s);
+            WeatherData.getInstance().setMeasurement(s,sensor);
         }
         if (currentSensor != null) {
 
             currentSensor.interrupt();
             currentSensor.setStatus(Status.OFF);
-            WeatherData.getInstance().setMeasurement(s);
+            WeatherData.getInstance().setMeasurement(s,sensor);
 
         }
     }
