@@ -551,25 +551,17 @@ public class StationUI extends javax.swing.JFrame {
         String sensorName = TemperatureComboBox.getSelectedItem().toString();
         SensorNameTextField.setText(sensorName);
         if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
-            for (int i = 0; i < station.getSensorList().getList().size(); i++) {
-            Sensor s = (Sensor) station.getSensorList().getList().get(i);
-            if (sensorName.equals(s.getSensor_name())) {
-                currentSensor = s; // set current sensor to already running sensor
-                station.getSensorList().removeSenor(s); //remove sensor from list
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Took previous sensor value");
 
-            } else {
+            if (!parseList(sensorName)) {
                 currentSensor = DBExecute.getSensorFromTable(sensorName);
                 StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db");
+                System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
 
             }
-        }
         } else { //if list of running sensors is empty
             currentSensor = DBExecute.getSensorFromTable(sensorName);
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db out of List");
+            StatusTextField.setText(currentSensor.getStatus());
+            System.out.println("Created Sensor from db out of List");
         }
 
 
@@ -586,10 +578,9 @@ public class StationUI extends javax.swing.JFrame {
 
     private void PressureComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PressureComboBoxActionPerformed
         // TODO add your handling code here:
-      if (currentSensor != null) {
+        if (currentSensor != null) {
 //            station.stopSensor(currentSensor);
             if (currentSensor.isAlive()) {
-
 //            Save sensor thread
                 station.getSensorList().addSensor(currentSensor);
                 System.out.println("Saved Thread");
@@ -597,30 +588,45 @@ public class StationUI extends javax.swing.JFrame {
         }
         String sensorName = PressureComboBox.getSelectedItem().toString();
         SensorNameTextField.setText(sensorName);
-        if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
-            for (int i = 0; i < station.getSensorList().getList().size(); i++) {
-            Sensor s = (Sensor) station.getSensorList().getList().get(i);
-            if (sensorName.equals(s.getSensor_name())) {
-                currentSensor = s; // set current sensor to already running sensor
-                station.getSensorList().removeSenor(s); //remove sensor from list
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Took previous sensor value");
+        if (!station.getSensorList().getList().isEmpty()) {
 
-            } else {
+            if (!parseList(sensorName)) {
                 currentSensor = DBExecute.getSensorFromTable(sensorName);
                 StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db");
+                System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
 
             }
-        }
         } else { //if list of running sensors is empty
             currentSensor = DBExecute.getSensorFromTable(sensorName);
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db out of List");
+            StatusTextField.setText(currentSensor.getStatus());
+            System.out.println("Created Sensor from db out of List");
         }
 
 
     }//GEN-LAST:event_PressureComboBoxActionPerformed
+    /**
+     * Parse the list for sensor names. If name is that of selected senor set
+     * that sensor to current station Sensor
+     *
+     * @param sensorName
+     * @return true if sensor name match
+     */
+    private Boolean parseList(String sensorName) {
+        //if list of running sensors is not empty
+        for (int i = 0; i < station.getSensorList().getList().size(); i++) {
+            Sensor s = (Sensor) station.getSensorList().getList().get(i);
+            if (sensorName.equals(s.getSensor_name())) {
+                currentSensor = s; // set current sensor to already running sensor
+                station.getSensorList().removeSensor(s); //remove sensor from list
+                StatusTextField.setText(currentSensor.getStatus());
+                System.out.println("Took previous sensor value");
+                return true;
+            }
+
+        }
+        return false;
+    }
+
     /**
      * Start the current sensor selected by user
      *
@@ -646,7 +652,7 @@ public class StationUI extends javax.swing.JFrame {
     }//GEN-LAST:event_StopSensorButtonActionPerformed
 
     private void HumidityComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HumidityComboBoxActionPerformed
-       if (currentSensor != null) {
+        if (currentSensor != null) {
 //            station.stopSensor(currentSensor);
             if (currentSensor.isAlive()) {
 
@@ -658,32 +664,24 @@ public class StationUI extends javax.swing.JFrame {
         String sensorName = HumidityComboBox.getSelectedItem().toString();
         SensorNameTextField.setText(sensorName);
         if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
-            for (int i = 0; i < station.getSensorList().getList().size(); i++) {
-            Sensor s = (Sensor) station.getSensorList().getList().get(i);
-            if (sensorName.equals(s.getSensor_name())) {
-                currentSensor = s; // set current sensor to already running sensor
-                station.getSensorList().removeSenor(s); //remove sensor from list
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Took previous sensor value");
-
-            } else {
+            
+            if (!parseList(sensorName)) {
                 currentSensor = DBExecute.getSensorFromTable(sensorName);
                 StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db");
+                System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
 
             }
-        }
         } else { //if list of running sensors is empty
             currentSensor = DBExecute.getSensorFromTable(sensorName);
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db out of List");
+            StatusTextField.setText(currentSensor.getStatus());
+            System.out.println("Created Sensor from db out of List");
         }
 
 
     }//GEN-LAST:event_HumidityComboBoxActionPerformed
 
     private void WindComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WindComboBoxActionPerformed
-       if (currentSensor != null) {
+        if (currentSensor != null) {
 //            station.stopSensor(currentSensor);
             if (currentSensor.isAlive()) {
 
@@ -695,25 +693,17 @@ public class StationUI extends javax.swing.JFrame {
         String sensorName = WindComboBox.getSelectedItem().toString();
         SensorNameTextField.setText(sensorName);
         if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
-            for (int i = 0; i < station.getSensorList().getList().size(); i++) {
-            Sensor s = (Sensor) station.getSensorList().getList().get(i);
-            if (sensorName.equals(s.getSensor_name())) {
-                currentSensor = s; // set current sensor to already running sensor
-                station.getSensorList().removeSenor(s); //remove sensor from list
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Took previous sensor value");
-
-            } else {
+            
+            if (!parseList(sensorName)) {
                 currentSensor = DBExecute.getSensorFromTable(sensorName);
                 StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db");
+                System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
 
             }
-        }
         } else { //if list of running sensors is empty
             currentSensor = DBExecute.getSensorFromTable(sensorName);
-                StatusTextField.setText(currentSensor.getStatus());
-                System.out.println("Created Sensor from db out of List");
+            StatusTextField.setText(currentSensor.getStatus());
+            System.out.println("Created Sensor from db out of List");
         }
 
 

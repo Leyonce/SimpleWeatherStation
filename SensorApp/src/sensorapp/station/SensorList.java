@@ -28,15 +28,24 @@ public class SensorList {
     }
 
     public void addSensor(Sensor sensor) {
+        for (int i = 0; i < list.size(); i++) {
+            Sensor s  = (Sensor)list.get(i);
+            if (sensor.getSensor_id().equals(s.getSensor_id()) ) {
+                System.out.println("Already in the list");
+                return;
+            }
+        }
+       
+
         list.add(sensor);
-        
-                
+
     }
 
-    public void removeSenor(Sensor sensor) {
+    public void removeSensor(Sensor sensor) {
         int i = list.indexOf(sensor);
         if (i >= 0) {
             list.remove(sensor);
+            System.out.println("Removed sensor" + sensor.getSensor_name());
         }
     }
 

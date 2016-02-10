@@ -70,7 +70,7 @@ public class Station {
     }
 
     public void deleteSensor(Sensor sensor) {
-        sensorList.removeSenor(sensor);
+        sensorList.removeSensor(sensor);
         this.stopSensor(sensor);
     }
 
