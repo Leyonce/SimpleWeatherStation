@@ -8,12 +8,15 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 import sensorapp.constants.DBType;
 import sensorapp.sensors.Sensor;
 import sensorapp.sensors.pojo.Location;
@@ -71,37 +74,49 @@ public class DBExecute {
      *
      * @param day numeric representation of day
      * @param id sensor identification
+     * @return SensorData and sensor time
      */
-    public static void getSensorDataTime(String day, String id) {
+    public static DefaultTableModel getSensorDataTime(String day, String id) {
         ResultSet rs = null;
-
+        DefaultTableModel DTm = null;
         try (
                 PreparedStatement stmt = conn.prepareStatement(SENSOR_DATA_TIME, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
             stmt.setString(1, day);
             stmt.setString(2, id);
             rs = stmt.executeQuery();
-            while (rs.next()) {
-                int f = rs.getInt(1);
-                Time x = rs.getTime(2);
-
-                System.out.println("Data:" + f + ", time:" + x);
-            }
+            DTm  =buildTableModel(rs);
 
         } catch (SQLException e) {
             System.err.println(e);
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DBExecute.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        } 
+        return DTm;
+    }
+  
+    public static DefaultTableModel buildTableModel(ResultSet rs)
+        throws SQLException {
 
-            }
-        }
+    ResultSetMetaData metaData = rs.getMetaData();
 
+    Vector<String> columnNames;
+        columnNames = new Vector<>();
+    int columnCount = metaData.getColumnCount();
+    for (int column = 1; column <= columnCount; column++) {
+        columnNames.add(metaData.getColumnName(column));
     }
 
+    Vector<Vector<Object>> data;
+        data = new Vector<>();
+    while (rs.next()) {
+        Vector<Object> vector = new Vector<>();
+        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+            vector.add(rs.getObject(columnIndex));
+        }
+        data.add(vector);
+    }
+
+    return new DefaultTableModel(data, columnNames);
+
+}
     /**
      * Creates a sensor from the sensors table
      *

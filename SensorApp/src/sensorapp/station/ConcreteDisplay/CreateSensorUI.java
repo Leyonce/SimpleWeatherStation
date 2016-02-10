@@ -43,10 +43,8 @@ public class CreateSensorUI extends javax.swing.JFrame {
         CancelButton = new javax.swing.JButton();
         SensorTypeComboBox = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
-        LatitudeSlider = new javax.swing.JSlider();
-        LongitudeSlider = new javax.swing.JSlider();
-        LongitudetextField = new java.awt.TextField();
-        LatitudetextField = new java.awt.TextField();
+        LongitudeTextField = new javax.swing.JTextField();
+        LatitudeTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Create Sensor");
@@ -87,36 +85,17 @@ public class CreateSensorUI extends javax.swing.JFrame {
 
         jLabel4.setText("Sensor Latitude:");
 
-        LatitudeSlider.setPaintLabels(true);
-        LatitudeSlider.setPaintTicks(true);
-        LatitudeSlider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                LatitudeSliderStateChanged(evt);
-            }
-        });
-        LatitudeSlider.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                LatitudeSliderPropertyChange(evt);
-            }
-        });
-
-        LongitudeSlider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                LongitudeSliderStateChanged(evt);
-            }
-        });
-
-        LongitudetextField.setText("50");
-        LongitudetextField.addActionListener(new java.awt.event.ActionListener() {
+        LongitudeTextField.setText("Set Longitude..");
+        LongitudeTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LongitudetextFieldActionPerformed(evt);
+                LongitudeTextFieldActionPerformed(evt);
             }
         });
 
-        LatitudetextField.setText("50");
-        LatitudetextField.addActionListener(new java.awt.event.ActionListener() {
+        LatitudeTextField.setText("Set Latitude...");
+        LatitudeTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LatitudetextFieldActionPerformed(evt);
+                LatitudeTextFieldActionPerformed(evt);
             }
         });
 
@@ -128,12 +107,6 @@ public class CreateSensorUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(CancelButton)
-                        .addGap(44, 44, 44)
-                        .addComponent(CreateButton)
-                        .addGap(63, 63, 63))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -143,13 +116,15 @@ public class CreateSensorUI extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
                             .addComponent(SensorTypeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(LatitudeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(LongitudeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(LongitudetextField, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                            .addComponent(LatitudetextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                            .addComponent(LongitudeTextField)
+                            .addComponent(LatitudeTextField, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap(60, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(CancelButton)
+                        .addGap(44, 44, 44)
+                        .addComponent(CreateButton)
+                        .addGap(63, 63, 63))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,17 +137,15 @@ public class CreateSensorUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(SensorTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(LongitudeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LongitudetextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LatitudeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LongitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(LatitudetextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                    .addComponent(LatitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CreateButton)
                     .addComponent(CancelButton))
@@ -193,7 +166,7 @@ public class CreateSensorUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
@@ -214,8 +187,8 @@ public class CreateSensorUI extends javax.swing.JFrame {
          */
         String type;
         Location location = new Location();
-        location.setLatitude(LatitudeSlider.getValue());
-        location.setLongitude(LongitudeSlider.getValue());
+        location.setLatitude(new Double(LatitudeTextField.getText()));
+        location.setLongitude(new Double(LongitudeTextField.getText()));
         type = SensorTypeComboBox.getSelectedItem().toString();
         JOptionPane.showMessageDialog(rootPane, ChooseSensorCombobox(type, location));
         ArrayList list = Station.getInstance().getSensorList().getList();
@@ -255,27 +228,13 @@ public class CreateSensorUI extends javax.swing.JFrame {
         }
     }
 
-    private void LongitudetextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LongitudetextFieldActionPerformed
+    private void LatitudeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LatitudeTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_LongitudetextFieldActionPerformed
+    }//GEN-LAST:event_LatitudeTextFieldActionPerformed
 
-    private void LatitudetextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LatitudetextFieldActionPerformed
+    private void LongitudeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LongitudeTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_LatitudetextFieldActionPerformed
-
-    private void LatitudeSliderPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_LatitudeSliderPropertyChange
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LatitudeSliderPropertyChange
-
-    private void LatitudeSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_LatitudeSliderStateChanged
-        LatitudetextField.setText(Integer.toString(LatitudeSlider.getValue()));
-    }//GEN-LAST:event_LatitudeSliderStateChanged
-
-    private void LongitudeSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_LongitudeSliderStateChanged
-        // TODO add your handling code here:
-        LongitudetextField.setText(Integer.toString(LongitudeSlider.getValue()));
-
-    }//GEN-LAST:event_LongitudeSliderStateChanged
+    }//GEN-LAST:event_LongitudeTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -284,10 +243,8 @@ public class CreateSensorUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelButton;
     private javax.swing.JButton CreateButton;
-    private javax.swing.JSlider LatitudeSlider;
-    private java.awt.TextField LatitudetextField;
-    private javax.swing.JSlider LongitudeSlider;
-    private java.awt.TextField LongitudetextField;
+    private javax.swing.JTextField LatitudeTextField;
+    private javax.swing.JTextField LongitudeTextField;
     private javax.swing.JTextPane SensorName;
     private javax.swing.JComboBox SensorTypeComboBox;
     private javax.swing.JLabel jLabel1;

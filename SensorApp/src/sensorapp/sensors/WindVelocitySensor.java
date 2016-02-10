@@ -6,7 +6,6 @@ package sensorapp.sensors;
 
 import java.sql.SQLException;
 import sensorapp.sensors.pojo.Location;
-import sensorapp.constants.SensorType;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,13 +17,13 @@ class WindVelocitySensor extends Sensor {
 
     public WindVelocitySensor(String name, String type) {
         super(name, type);
-        this.siUnit = "km/s";
+        this.siUnit = "m/s";
 
     }
 
     public WindVelocitySensor(String name,String type, Location location) {
         super(name,type, location);
-        this.siUnit = "km/s";
+        this.siUnit = "m/s";
 
     }
 

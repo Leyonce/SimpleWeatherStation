@@ -5,6 +5,7 @@
  */
 package sensorapp.station.ConcreteDisplay;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -88,7 +89,16 @@ public class StationUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane3 = new javax.swing.JTabbedPane();
+        sensorDetailPanel = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        StatusTextField = new javax.swing.JTextField();
+        CurrentValueTextField = new javax.swing.JTextField();
+        SensorNameTextField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        StopSensorButton = new javax.swing.JButton();
+        StartSensorButton = new javax.swing.JButton();
+        DayTabPane = new javax.swing.JTabbedPane();
         MondayScrollPane = new javax.swing.JScrollPane();
         MondayTable = new javax.swing.JTable();
         TuesdayScrollPane = new javax.swing.JScrollPane();
@@ -103,15 +113,6 @@ public class StationUI extends javax.swing.JFrame {
         SaturdayTable = new javax.swing.JTable();
         SundayScrollPane = new javax.swing.JScrollPane();
         SundayTable = new javax.swing.JTable();
-        sensorDetailPanel = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        StatusTextField = new javax.swing.JTextField();
-        CurrentValueTextField = new javax.swing.JTextField();
-        SensorNameTextField = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        StopSensorButton = new javax.swing.JButton();
-        StartSensorButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         TemperatureComboBox = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
@@ -131,111 +132,6 @@ public class StationUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        MondayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Time", "Value"
-            }
-        ));
-        MondayScrollPane.setViewportView(MondayTable);
-
-        jTabbedPane3.addTab("Mon", MondayScrollPane);
-
-        TuesdayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Time", "Value"
-            }
-        ));
-        TuesdayScrollPane.setViewportView(TuesdayTable);
-
-        jTabbedPane3.addTab("Tue", TuesdayScrollPane);
-
-        WednesdayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Time", "Value"
-            }
-        ));
-        WednesdayScrollPane.setViewportView(WednesdayTable);
-
-        jTabbedPane3.addTab("Wed", WednesdayScrollPane);
-
-        ThursdayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Time", "Value"
-            }
-        ));
-        ThursdayScrollPane.setViewportView(ThursdayTable);
-
-        jTabbedPane3.addTab("Thu", ThursdayScrollPane);
-
-        FridayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Time", "Value"
-            }
-        ));
-        FridayScrollPane.setViewportView(FridayTable);
-
-        jTabbedPane3.addTab("Fri", FridayScrollPane);
-
-        SaturdayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Time", "Value"
-            }
-        ));
-        SaturdayScrollPane.setViewportView(SaturdayTable);
-
-        jTabbedPane3.addTab("Sat", SaturdayScrollPane);
-
-        SundayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Time", "Value"
-            }
-        ));
-        SundayScrollPane.setViewportView(SundayTable);
-
-        jTabbedPane3.addTab("Sun", SundayScrollPane);
-
         sensorDetailPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel5.setText("Sensor Status:");
@@ -253,6 +149,7 @@ public class StationUI extends javax.swing.JFrame {
         });
 
         CurrentValueTextField.setEditable(false);
+        CurrentValueTextField.setBackground(new java.awt.Color(204, 204, 204));
         CurrentValueTextField.setFont(new java.awt.Font("DejaVu Serif", 3, 14)); // NOI18N
         CurrentValueTextField.setText("...");
 
@@ -284,37 +181,150 @@ public class StationUI extends javax.swing.JFrame {
             }
         });
 
+        DayTabPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DayTabPaneMouseClicked(evt);
+            }
+        });
+
+        MondayTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        MondayScrollPane.setViewportView(MondayTable);
+
+        DayTabPane.addTab("Mon", MondayScrollPane);
+
+        TuesdayTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        TuesdayScrollPane.setViewportView(TuesdayTable);
+
+        DayTabPane.addTab("Tue", TuesdayScrollPane);
+
+        WednesdayTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        WednesdayScrollPane.setViewportView(WednesdayTable);
+
+        DayTabPane.addTab("Wed", WednesdayScrollPane);
+
+        ThursdayTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        ThursdayScrollPane.setViewportView(ThursdayTable);
+
+        DayTabPane.addTab("Thu", ThursdayScrollPane);
+
+        FridayTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        FridayScrollPane.setViewportView(FridayTable);
+
+        DayTabPane.addTab("Fri", FridayScrollPane);
+
+        SaturdayTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        SaturdayScrollPane.setViewportView(SaturdayTable);
+
+        DayTabPane.addTab("Sat", SaturdayScrollPane);
+
+        SundayTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        SundayScrollPane.setViewportView(SundayTable);
+
+        DayTabPane.addTab("Sun", SundayScrollPane);
+
         javax.swing.GroupLayout sensorDetailPanelLayout = new javax.swing.GroupLayout(sensorDetailPanel);
         sensorDetailPanel.setLayout(sensorDetailPanelLayout);
         sensorDetailPanelLayout.setHorizontalGroup(
             sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sensorDetailPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SensorNameTextField)
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))))
+                .addGap(21, 21, 21)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sensorDetailPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
-                        .addComponent(StartSensorButton)
-                        .addGap(12, 12, 12)
-                        .addGap(123, 123, 123))
-                    .addComponent(StopSensorButton))
-                .addGap(109, 109, 109))
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SensorNameTextField)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sensorDetailPanelLayout.createSequentialGroup()
+                .addContainerGap(86, Short.MAX_VALUE)
+                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sensorDetailPanelLayout.createSequentialGroup()
+                        .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                                .addComponent(StartSensorButton)
+                                .addGap(135, 135, 135))
+                            .addComponent(StopSensorButton))
+                        .addGap(109, 109, 109))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sensorDetailPanelLayout.createSequentialGroup()
+                        .addComponent(DayTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(66, 66, 66))))
         );
         sensorDetailPanelLayout.setVerticalGroup(
             sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,11 +339,13 @@ public class StationUI extends javax.swing.JFrame {
                 .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(StopSensorButton)
                     .addComponent(StartSensorButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
+                .addComponent(DayTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -470,15 +482,9 @@ public class StationUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 166, Short.MAX_VALUE)
-                        .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(178, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(sensorDetailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(sensorDetailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -487,9 +493,7 @@ public class StationUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sensorDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(94, 94, 94))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
@@ -526,16 +530,7 @@ public class StationUI extends javax.swing.JFrame {
     private void StatusTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_StatusTextFieldActionPerformed
-    /**
-     * This method should get the current sensor if it is not null and add it to
-     * the list of temperature sensors(threads presently running) Using this
-     * list figure out whether a thread for this specific selected sensor does
-     * not already exist. If the thread exists already in memory set it as
-     * current sensor otherwise, create a new sensor thread and set it as
-     * current sensor.
-     *
-     * @param evt
-     */
+
     private void TemperatureComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TemperatureComboBoxActionPerformed
         // TODO add your handling code here:
 
@@ -657,15 +652,70 @@ public class StationUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_WindComboBoxActionPerformed
 
+    private void DayTabPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DayTabPaneMouseClicked
+        // TODO add your handling code here:
+        int day = DayTabPane.getSelectedIndex() + 1;
+        System.out.println(day);
+        switch (day) {
+            case 1:
+                SundayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                SundayTable.setVisible(true);
+                break;
+            case 2:
+
+                MondayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                MondayTable.setVisible(true);
+                break;
+            case 3:
+
+                TuesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                TuesdayTable.setVisible(true);
+                break;
+            case 4:
+
+                WednesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                WednesdayTable.setVisible(true);
+                break;
+            case 5:
+
+                ThursdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                ThursdayTable.setVisible(true);
+                break;
+            case 6:
+
+                FridayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                FridayTable.setVisible(true);
+                break;
+            case 7:
+                SaturdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                SaturdayTable.setVisible(true);
+                break;
+            default:
+                break;
+        }
+
+
+    }//GEN-LAST:event_DayTabPaneMouseClicked
+
+    /**
+     * This method should get the current sensor if it is not null and add it to
+     * the list of running sensors(threads presently running). Using this list,
+     * we can figure out whether a thread for a specific selected sensor names
+     * does not already exist. If the thread exists already in memory set it as
+     * current station sensor otherwise, create a new sensor thread and set it
+     * as current station sensor.
+     *
+     *
+     */
     private void activateCurrentSensor(String sensorName) {
         SensorNameTextField.setText(sensorName);
         if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
-            
+
             if (!parseList(sensorName)) {
                 currentSensor = DBExecute.getSensorFromTable(sensorName);
                 StatusTextField.setText(currentSensor.getStatus());
                 System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
-                
+
             }
         } else { //if list of running sensors is empty
             currentSensor = DBExecute.getSensorFromTable(sensorName);
@@ -681,6 +731,7 @@ public class StationUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CreateSensor;
     private javax.swing.JTextField CurrentValueTextField;
+    private javax.swing.JTabbedPane DayTabPane;
     private javax.swing.JScrollPane FridayScrollPane;
     private javax.swing.JTable FridayTable;
     private javax.swing.JComboBox HumidityComboBox;
@@ -717,7 +768,6 @@ public class StationUI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JPanel sensorDetailPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -974,11 +1024,11 @@ public class StationUI extends javax.swing.JFrame {
     }
 
     public JTabbedPane getjTabbedPane3() {
-        return jTabbedPane3;
+        return DayTabPane;
     }
 
     public void setjTabbedPane3(JTabbedPane jTabbedPane3) {
-        this.jTabbedPane3 = jTabbedPane3;
+        this.DayTabPane = jTabbedPane3;
     }
 
     /**
