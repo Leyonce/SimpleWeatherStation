@@ -31,11 +31,11 @@ public class DBExecute {
 
 //    private static final String SENSOR_CREATE_SQL = "INSERT INTO sensors (sensor_id,sensor_name,sensor_type,sensor_location ) VALUES (?,?,?,?);";
     private static final String SENSOR_CREATE_SQL = "INSERT INTO sensors (sensor_id,sensor_name,sensor_type,sensor_location ) "
-                                                        + "SELECT sensor_id,sensor_name,sensor_type,sensor_location FROM sensors UNION VALUES(?,?,?,?) "
-                                                        + "EXCEPT SELECT sensor_id,sensor_name,sensor_type,sensor_location from sensors";
+            + "SELECT sensor_id,sensor_name,sensor_type,sensor_location FROM sensors UNION VALUES(?,?,?,?) "
+            + "EXCEPT SELECT sensor_id,sensor_name,sensor_type,sensor_location from sensors";
 
     private static final String SENSOR_INSERT_INFO_SQL = "INSERT INTO sensors_info (sensor_id,sensor_data,sensor_date,sensor_time) VALUES (?,?,?,?);";
-    private static final String SENSOR_DATA_TIME = "SELECT sensor_data, sensor_time FROM sensors_info WHERE to_char(sensor_date,'D') in (?) AND sensor_id =?";
+    private static final String SENSOR_DATA_TIME = "SELECT sensor_data, sensor_time FROM sensors_info WHERE to_char(sensor_date,'D') in (?) AND sensor_id =?  AND sensor_date BETWEEN (?) and date (?) + INTERVAL '12days'";
     private static final String SENSORSLISTSQL = "SELECT  DISTINCT sensor_name FROM sensors WHERE sensor_type = ?";
     private static final String SENSORSQL = "SELECT sensor_type, sensor_location, sensor_id from sensors where sensor_name=?";
     private static Connection conn = DBUtil.getConnection(DBType.POSTGRESQL);
@@ -74,49 +74,55 @@ public class DBExecute {
      *
      * @param day numeric representation of day
      * @param id sensor identification
+     * @param date date of query
      * @return SensorData and sensor time
      */
-    public static DefaultTableModel getSensorDataTime(String day, String id) {
+    public static DefaultTableModel getSensorDataTime(String day, String id, Date date) {
         ResultSet rs = null;
         DefaultTableModel DTm = null;
         try (
                 PreparedStatement stmt = conn.prepareStatement(SENSOR_DATA_TIME, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
             stmt.setString(1, day);
             stmt.setString(2, id);
+            stmt.setDate(3, date);
+            stmt.setDate(4, date);
+
             rs = stmt.executeQuery();
-            DTm  =buildTableModel(rs);
+            System.out.println(stmt.toString());
+            DTm = buildTableModel(rs);
 
         } catch (SQLException e) {
             System.err.println(e);
-        } 
+        }
         return DTm;
     }
-  
+
     public static DefaultTableModel buildTableModel(ResultSet rs)
-        throws SQLException {
+            throws SQLException {
 
-    ResultSetMetaData metaData = rs.getMetaData();
+        ResultSetMetaData metaData = rs.getMetaData();
 
-    Vector<String> columnNames;
+        Vector<String> columnNames;
         columnNames = new Vector<>();
-    int columnCount = metaData.getColumnCount();
-    for (int column = 1; column <= columnCount; column++) {
-        columnNames.add(metaData.getColumnName(column));
-    }
-
-    Vector<Vector<Object>> data;
-        data = new Vector<>();
-    while (rs.next()) {
-        Vector<Object> vector = new Vector<>();
-        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-            vector.add(rs.getObject(columnIndex));
+        int columnCount = metaData.getColumnCount();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
         }
-        data.add(vector);
+
+        Vector<Vector<Object>> data;
+        data = new Vector<>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            data.add(vector);
+        }
+
+        return new DefaultTableModel(data, columnNames);
+
     }
 
-    return new DefaultTableModel(data, columnNames);
-
-}
     /**
      * Creates a sensor from the sensors table
      *

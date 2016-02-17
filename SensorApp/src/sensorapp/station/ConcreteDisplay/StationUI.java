@@ -5,7 +5,7 @@
  */
 package sensorapp.station.ConcreteDisplay;
 
-import java.sql.ResultSet;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +34,7 @@ public class StationUI extends javax.swing.JFrame {
     private Station station;
     private static StationUI instance;
     Sensor currentSensor = null;
+    private Date currentDate;
 
     private StationUI() {
         this.station = Station.getInstance();
@@ -99,6 +100,8 @@ public class StationUI extends javax.swing.JFrame {
         StopSensorButton = new javax.swing.JButton();
         StartSensorButton = new javax.swing.JButton();
         DayTabPane = new javax.swing.JTabbedPane();
+        SundayScrollPane = new javax.swing.JScrollPane();
+        SundayTable = new javax.swing.JTable();
         MondayScrollPane = new javax.swing.JScrollPane();
         MondayTable = new javax.swing.JTable();
         TuesdayScrollPane = new javax.swing.JScrollPane();
@@ -111,8 +114,9 @@ public class StationUI extends javax.swing.JFrame {
         FridayTable = new javax.swing.JTable();
         SaturdayScrollPane = new javax.swing.JScrollPane();
         SaturdayTable = new javax.swing.JTable();
-        SundayScrollPane = new javax.swing.JScrollPane();
-        SundayTable = new javax.swing.JTable();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        jLabel8 = new javax.swing.JLabel();
+        jXGraph1 = new org.jdesktop.swingx.JXGraph();
         jPanel3 = new javax.swing.JPanel();
         TemperatureComboBox = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
@@ -186,6 +190,21 @@ public class StationUI extends javax.swing.JFrame {
                 DayTabPaneMouseClicked(evt);
             }
         });
+
+        SundayTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        SundayScrollPane.setViewportView(SundayTable);
+
+        DayTabPane.addTab("Sun", SundayScrollPane);
 
         MondayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -277,31 +296,29 @@ public class StationUI extends javax.swing.JFrame {
 
         DayTabPane.addTab("Sat", SaturdayScrollPane);
 
-        SundayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
+        jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePicker1ActionPerformed(evt);
             }
-        ));
-        SundayScrollPane.setViewportView(SundayTable);
+        });
 
-        DayTabPane.addTab("Sun", SundayScrollPane);
+        jLabel8.setText("Select Date:");
+
+        javax.swing.GroupLayout jXGraph1Layout = new javax.swing.GroupLayout(jXGraph1);
+        jXGraph1.setLayout(jXGraph1Layout);
+        jXGraph1Layout.setHorizontalGroup(
+            jXGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jXGraph1Layout.setVerticalGroup(
+            jXGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout sensorDetailPanelLayout = new javax.swing.GroupLayout(sensorDetailPanel);
         sensorDetailPanel.setLayout(sensorDetailPanelLayout);
         sensorDetailPanelLayout.setHorizontalGroup(
             sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sensorDetailPanelLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sensorDetailPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
@@ -312,19 +329,29 @@ public class StationUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sensorDetailPanelLayout.createSequentialGroup()
-                .addContainerGap(86, Short.MAX_VALUE)
+            .addGroup(sensorDetailPanelLayout.createSequentialGroup()
                 .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sensorDetailPanelLayout.createSequentialGroup()
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addGap(173, 173, 173)
                         .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(sensorDetailPanelLayout.createSequentialGroup()
                                 .addComponent(StartSensorButton)
                                 .addGap(135, 135, 135))
-                            .addComponent(StopSensorButton))
-                        .addGap(109, 109, 109))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sensorDetailPanelLayout.createSequentialGroup()
-                        .addComponent(DayTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66))))
+                            .addComponent(StopSensorButton)))
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jXGraph1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(DayTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
         sensorDetailPanelLayout.setVerticalGroup(
             sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,10 +369,14 @@ public class StationUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 255, Short.MAX_VALUE)
-                .addComponent(DayTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                    .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jXGraph1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DayTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -407,7 +438,8 @@ public class StationUI extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(WindComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(HumidityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(HumidityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(112, 112, 112))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(TemperatureComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -417,9 +449,9 @@ public class StationUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(TemperatureComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
+                .addComponent(TemperatureComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PressureComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -431,7 +463,7 @@ public class StationUI extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(WindComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(409, Short.MAX_VALUE))
         );
 
         Menu.setText("File");
@@ -482,18 +514,20 @@ public class StationUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(sensorDetailPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sensorDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(378, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sensorDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(sensorDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -658,36 +692,37 @@ public class StationUI extends javax.swing.JFrame {
         System.out.println(day);
         switch (day) {
             case 1:
-                SundayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                SundayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 SundayTable.setVisible(true);
+                //SundayTable.repaint();
                 break;
             case 2:
 
-                MondayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                MondayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 MondayTable.setVisible(true);
                 break;
             case 3:
 
-                TuesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                TuesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 TuesdayTable.setVisible(true);
                 break;
             case 4:
 
-                WednesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                WednesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 WednesdayTable.setVisible(true);
                 break;
             case 5:
 
-                ThursdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                ThursdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 ThursdayTable.setVisible(true);
                 break;
             case 6:
 
-                FridayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                FridayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 FridayTable.setVisible(true);
                 break;
             case 7:
-                SaturdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id()));
+                SaturdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 SaturdayTable.setVisible(true);
                 break;
             default:
@@ -696,6 +731,12 @@ public class StationUI extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_DayTabPaneMouseClicked
+
+    private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
+        // TODO add your handling code here:
+        currentDate = new Date(jXDatePicker1.getDate().getTime());
+             System.out.println(currentDate);
+    }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
     /**
      * This method should get the current sensor if it is not null and add it to
@@ -765,9 +806,12 @@ public class StationUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel3;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private org.jdesktop.swingx.JXGraph jXGraph1;
     private javax.swing.JPanel sensorDetailPanel;
     // End of variables declaration//GEN-END:variables
 
