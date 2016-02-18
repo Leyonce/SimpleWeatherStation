@@ -41,6 +41,10 @@ public abstract class Sensor extends Thread {
 
     protected String siUnit;
 
+    public String getSensorSiUnit() {
+        return siUnit;
+    }
+
     public Sensor() {
 
         this.sensor_name = "NO Name";

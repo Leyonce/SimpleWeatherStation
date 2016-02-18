@@ -35,7 +35,7 @@ public class DBExecute {
             + "EXCEPT SELECT sensor_id,sensor_name,sensor_type,sensor_location from sensors";
 
     private static final String SENSOR_INSERT_INFO_SQL = "INSERT INTO sensors_info (sensor_id,sensor_data,sensor_date,sensor_time) VALUES (?,?,?,?);";
-    private static final String SENSOR_DATA_TIME = "SELECT sensor_data, sensor_time FROM sensors_info WHERE to_char(sensor_date,'D') in (?) AND sensor_id =?  AND sensor_date BETWEEN (?) and date (?) + INTERVAL '12days'";
+    private static final String SENSOR_DATA_TIME = "SELECT sensor_data, sensor_time FROM sensors_info WHERE to_char(sensor_date,'D') in (?) AND sensor_id =?  AND sensor_date BETWEEN (?) and date (?) + INTERVAL '6days'";
     private static final String SENSORSLISTSQL = "SELECT  DISTINCT sensor_name FROM sensors WHERE sensor_type = ?";
     private static final String SENSORSQL = "SELECT sensor_type, sensor_location, sensor_id from sensors where sensor_name=?";
     private static Connection conn = DBUtil.getConnection(DBType.POSTGRESQL);

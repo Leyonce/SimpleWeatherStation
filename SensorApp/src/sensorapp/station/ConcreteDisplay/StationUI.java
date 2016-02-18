@@ -19,6 +19,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import sensorapp.constants.SensorType;
 import sensorapp.datahelper.DBExecute;
 import sensorapp.sensors.Sensor;
@@ -116,7 +126,7 @@ public class StationUI extends javax.swing.JFrame {
         SaturdayTable = new javax.swing.JTable();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         jLabel8 = new javax.swing.JLabel();
-        jXGraph1 = new org.jdesktop.swingx.JXGraph();
+        GraphPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         TemperatureComboBox = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
@@ -304,31 +314,23 @@ public class StationUI extends javax.swing.JFrame {
 
         jLabel8.setText("Select Date:");
 
-        javax.swing.GroupLayout jXGraph1Layout = new javax.swing.GroupLayout(jXGraph1);
-        jXGraph1.setLayout(jXGraph1Layout);
-        jXGraph1Layout.setHorizontalGroup(
-            jXGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        GraphPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout GraphPanelLayout = new javax.swing.GroupLayout(GraphPanel);
+        GraphPanel.setLayout(GraphPanelLayout);
+        GraphPanelLayout.setHorizontalGroup(
+            GraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        jXGraph1Layout.setVerticalGroup(
-            jXGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        GraphPanelLayout.setVerticalGroup(
+            GraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 347, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout sensorDetailPanelLayout = new javax.swing.GroupLayout(sensorDetailPanel);
         sensorDetailPanel.setLayout(sensorDetailPanelLayout);
         sensorDetailPanelLayout.setHorizontalGroup(
             sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sensorDetailPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SensorNameTextField)
-                .addGap(24, 24, 24)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
             .addGroup(sensorDetailPanelLayout.createSequentialGroup()
                 .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(sensorDetailPanelLayout.createSequentialGroup()
@@ -345,13 +347,25 @@ public class StationUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(667, Short.MAX_VALUE))
+            .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(sensorDetailPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jXGraph1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(DayTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(78, Short.MAX_VALUE))
+                        .addComponent(SensorNameTextField)
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addComponent(GraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(DayTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         sensorDetailPanelLayout.setVerticalGroup(
             sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,11 +386,15 @@ public class StationUI extends javax.swing.JFrame {
                     .addComponent(CurrentValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jXGraph1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DayTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGroup(sensorDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addComponent(GraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(sensorDetailPanelLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(DayTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -463,7 +481,7 @@ public class StationUI extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(WindComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(409, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Menu.setText("File");
@@ -517,16 +535,16 @@ public class StationUI extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sensorDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(378, Short.MAX_VALUE))
+                .addContainerGap(128, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(sensorDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sensorDetailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -695,35 +713,197 @@ public class StationUI extends javax.swing.JFrame {
                 SundayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 SundayTable.setVisible(true);
                 //SundayTable.repaint();
+
+                //update the graph pannel
+                try {
+
+                    if (!SundayTable.getValueAt(0, 0).toString().isEmpty()) {
+                        System.out.println("mm");
+
+                        DefaultCategoryDataset dataset = createdataset(SundayTable);
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                    }
+                } catch (Exception e) {
+                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                }
                 break;
             case 2:
 
                 MondayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 MondayTable.setVisible(true);
+                 //update the graph pannel
+                try {
+
+                    if (!MondayTable.getValueAt(0, 0).toString().isEmpty()) {
+                        System.out.println("mm");
+
+                        DefaultCategoryDataset dataset = createdataset(MondayTable);
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                    }
+                } catch (Exception e) {
+                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                }
                 break;
             case 3:
 
                 TuesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 TuesdayTable.setVisible(true);
+                 //update the graph pannel
+                try {
+
+                    if (!TuesdayTable.getValueAt(0, 0).toString().isEmpty()) {
+                        System.out.println("mm");
+
+                        DefaultCategoryDataset dataset = createdataset(TuesdayTable);
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                    }
+                } catch (Exception e) {
+                   DefaultCategoryDataset dataset = new DefaultCategoryDataset();;
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                }
                 break;
             case 4:
 
                 WednesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 WednesdayTable.setVisible(true);
+                 //update the graph pannel
+                try {
+
+                    if (!WednesdayTable.getValueAt(0, 0).toString().isEmpty()) {
+                        System.out.println("mm");
+
+                       DefaultCategoryDataset dataset = createdataset(WednesdayTable);
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                    }
+                } catch (Exception e) {
+                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                }
                 break;
             case 5:
 
                 ThursdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 ThursdayTable.setVisible(true);
+                 //update the graph pannel
+                try {
+
+                    if (!ThursdayTable.getValueAt(0, 0).toString().isEmpty()) {
+                        System.out.println("mm");
+
+                        DefaultCategoryDataset dataset = createdataset(ThursdayTable);
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                    }
+                } catch (Exception e) {
+                   DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                }
                 break;
             case 6:
 
                 FridayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 FridayTable.setVisible(true);
+                 //update the graph pannel
+                try {
+
+                    if (!FridayTable.getValueAt(0, 0).toString().isEmpty()) {
+                        System.out.println("mm");
+
+                        DefaultCategoryDataset dataset = createdataset(FridayTable);
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                    }
+                } catch (Exception e) {
+                   DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                }
                 break;
             case 7:
                 SaturdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
                 SaturdayTable.setVisible(true);
+                 //update the graph pannel
+                try {
+
+                    if (!SaturdayTable.getValueAt(0, 0).toString().isEmpty()) {
+                        System.out.println("mm");
+
+                        DefaultCategoryDataset dataset = createdataset(SaturdayTable);
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                    }
+                } catch (Exception e) {
+                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                        JFreeChart chart = createChart(dataset);
+                        JPanel chartPanel = new ChartPanel(chart);
+                        chartPanel.setSize(GraphPanel.getSize());
+                        GraphPanel.add(chartPanel);
+                        GraphPanel.getParent().validate();
+                        GraphPanel.repaint();
+                }
                 break;
             default:
                 break;
@@ -735,8 +915,49 @@ public class StationUI extends javax.swing.JFrame {
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
         // TODO add your handling code here:
         currentDate = new Date(jXDatePicker1.getDate().getTime());
-             System.out.println(currentDate);
+//        System.out.println(currentDate);
+//        System.out.println(WednesdayTable.getValueAt(0, 0).toString());
+
+
     }//GEN-LAST:event_jXDatePicker1ActionPerformed
+
+    private JFreeChart createChart(DefaultCategoryDataset dataset) {
+        JFreeChart chart = ChartFactory.createLineChart(
+                currentSensor.getSensor_name() + " Chart", // chart title
+                "Time(h)", // x axis label
+                "Sensor data("+currentSensor.getSensorSiUnit()+")", // y axis label
+                dataset, // data
+                PlotOrientation.VERTICAL,
+                false, // include legend
+                true, // tooltips
+                false // urls
+        );
+//        XYPlot plot = (XYPlot) chart.getPlot();
+//        plot.setDomainPannable(true);
+//        plot.setRangePannable(true);
+//        plot.setRangeGridlinesVisible(false);
+//        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+//        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+        return chart;
+    }
+
+    private DefaultCategoryDataset createdataset(JTable jTable) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
+        int rows = jTable.getRowCount();
+       
+        if (rows > 0 ) {
+          
+            for (int row = 0; row < rows; row++) {
+                dataset.addValue( Double.parseDouble(
+                        jTable.getValueAt(row, 0).toString()) , "sensor_time" ,jTable.getValueAt(row, 1).toString() );
+                    
+                         
+            }
+        }
+//        XYSeriesCollection dataset = new XYSeriesCollection();
+//        dataset.addSeries(series);
+        return dataset;
+    }
 
     /**
      * This method should get the current sensor if it is not null and add it to
@@ -775,6 +996,7 @@ public class StationUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane DayTabPane;
     private javax.swing.JScrollPane FridayScrollPane;
     private javax.swing.JTable FridayTable;
+    private javax.swing.JPanel GraphPanel;
     private javax.swing.JComboBox HumidityComboBox;
     private javax.swing.JMenu Menu;
     private javax.swing.JMenuBar MenuBar;
@@ -811,7 +1033,6 @@ public class StationUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel3;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
-    private org.jdesktop.swingx.JXGraph jXGraph1;
     private javax.swing.JPanel sensorDetailPanel;
     // End of variables declaration//GEN-END:variables
 
