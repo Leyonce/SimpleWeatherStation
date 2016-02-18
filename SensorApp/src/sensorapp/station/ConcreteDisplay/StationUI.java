@@ -22,13 +22,8 @@ import javax.swing.JTextField;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 import sensorapp.constants.SensorType;
 import sensorapp.datahelper.DBExecute;
 import sensorapp.sensors.Sensor;
@@ -721,21 +716,11 @@ public class StationUI extends javax.swing.JFrame {
                         System.out.println("mm");
 
                         DefaultCategoryDataset dataset = createdataset(SundayTable);
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                     }
                 } catch (Exception e) {
                     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                 }
                 break;
             case 2:
@@ -749,21 +734,11 @@ public class StationUI extends javax.swing.JFrame {
                         System.out.println("mm");
 
                         DefaultCategoryDataset dataset = createdataset(MondayTable);
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                     }
                 } catch (Exception e) {
                     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                 }
                 break;
             case 3:
@@ -777,21 +752,11 @@ public class StationUI extends javax.swing.JFrame {
                         System.out.println("mm");
 
                         DefaultCategoryDataset dataset = createdataset(TuesdayTable);
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                     }
                 } catch (Exception e) {
                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();;
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                 }
                 break;
             case 4:
@@ -805,21 +770,11 @@ public class StationUI extends javax.swing.JFrame {
                         System.out.println("mm");
 
                        DefaultCategoryDataset dataset = createdataset(WednesdayTable);
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                     }
                 } catch (Exception e) {
                     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                 }
                 break;
             case 5:
@@ -833,21 +788,11 @@ public class StationUI extends javax.swing.JFrame {
                         System.out.println("mm");
 
                         DefaultCategoryDataset dataset = createdataset(ThursdayTable);
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                     }
                 } catch (Exception e) {
                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                 }
                 break;
             case 6:
@@ -861,21 +806,11 @@ public class StationUI extends javax.swing.JFrame {
                         System.out.println("mm");
 
                         DefaultCategoryDataset dataset = createdataset(FridayTable);
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                     }
                 } catch (Exception e) {
                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                 }
                 break;
             case 7:
@@ -888,21 +823,11 @@ public class StationUI extends javax.swing.JFrame {
                         System.out.println("mm");
 
                         DefaultCategoryDataset dataset = createdataset(SaturdayTable);
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                     }
                 } catch (Exception e) {
                     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                        JFreeChart chart = createChart(dataset);
-                        JPanel chartPanel = new ChartPanel(chart);
-                        chartPanel.setSize(GraphPanel.getSize());
-                        GraphPanel.add(chartPanel);
-                        GraphPanel.getParent().validate();
-                        GraphPanel.repaint();
+                        UpdateGraph(dataset);
                 }
                 break;
             default:
@@ -911,6 +836,19 @@ public class StationUI extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_DayTabPaneMouseClicked
+
+    private void UpdateGraph(DefaultCategoryDataset dataset) {
+        JFreeChart chart = createChart(dataset);
+        JPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setSize(GraphPanel.getSize());
+        if (GraphPanel.getComponentCount()>0){
+        GraphPanel.remove(0);
+            System.out.println(GraphPanel.getComponentCount());
+        }
+        GraphPanel.add(chartPanel);
+        GraphPanel.getParent().validate();
+        GraphPanel.repaint();
+    }
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
         // TODO add your handling code here:
