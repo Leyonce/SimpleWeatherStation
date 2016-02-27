@@ -5,8 +5,7 @@
 package sensorapp.station.ConcreteDisplay;
 
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sensorapp.datahelper.DBExecute;
 
 /**
@@ -14,7 +13,7 @@ import sensorapp.datahelper.DBExecute;
  * @author leo
  */
 public class RemoveSensorUI extends javax.swing.JFrame {
- 
+
     /**
      * Creates new form RemoveSensorUI
      */
@@ -24,8 +23,9 @@ public class RemoveSensorUI extends javax.swing.JFrame {
     }
 
     private void setHideOnClose() {
-        this.setDefaultCloseOperation(HIDE_ON_CLOSE );
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -117,13 +117,13 @@ public class RemoveSensorUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void SensorTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SensorTypeComboBoxActionPerformed
         // TODO add your handling code here:
-         SensorNameComboBox.removeAllItems();
-         for (int i = 0; i < DBExecute.getSensorList(SensorTypeComboBox.getSelectedItem().toString()).size(); i++) {
+        SensorNameComboBox.removeAllItems();
+        for (int i = 0; i < DBExecute.getSensorList(SensorTypeComboBox.getSelectedItem().toString()).size(); i++) {
             SensorNameComboBox.addItem(DBExecute.getSensorList(SensorTypeComboBox.getSelectedItem().toString()).get(i));
 
         }
@@ -131,20 +131,30 @@ public class RemoveSensorUI extends javax.swing.JFrame {
 
     private void SensorNameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SensorNameComboBoxActionPerformed
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_SensorNameComboBoxActionPerformed
 
     private void DeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteButtonActionPerformed
-     try {
-         // TODO add your handling code here:
-         DBExecute.deleteSensorSQL(SensorNameComboBox.getSelectedItem().toString());
-     } catch (SQLException ex) {
-         Logger.getLogger(RemoveSensorUI.class.getName()).log(Level.SEVERE, null, ex);
-     }
-        
+        try {
+            // TODO add your handling code here:
+            DBExecute.deleteSensorSQL(SensorNameComboBox.getSelectedItem().toString());
+            StationUI.getInstance().getWindComboBox().removeAllItems();
+            StationUI.getInstance().getHumidityComboBox().removeAllItems();
+            StationUI.getInstance().getPressureComboBox().removeAllItems();
+            StationUI.getInstance().getTemperatureComboBox().removeAllItems();
+            StationUI.getInstance().setComboBoxValues();
+            StationUI.getInstance().setCurrentSensor(null);
+            this.dispose();
+
+        } catch (SQLException ex) {
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "No sensor selected");
+
+        }
+
     }//GEN-LAST:event_DeleteButtonActionPerformed
 
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton DeleteButton;

@@ -4,7 +4,6 @@
  */
 package sensorapp.station.ConcreteDisplay;
 
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import sensorapp.sensors.NoSensor;
 import sensorapp.sensors.Sensor;
@@ -204,12 +203,17 @@ public class CreateSensorUI extends javax.swing.JFrame {
         /**
          * Create a sensor and add its value to the corresponding combo list*
          */
+        try {
         String type;
         Location location = new Location();
         location.setLatitude(new Double(LatitudeTextField.getText()));
         location.setLongitude(new Double(LongitudeTextField.getText()));
         type = SensorTypeComboBox.getSelectedItem().toString();
         JOptionPane.showMessageDialog(rootPane, ChooseSensorCombobox(type, location));
+            
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(rootPane,"Check your types");
+        }
 //        ArrayList list = Station.getInstance().getSensorList().getList();
 
 

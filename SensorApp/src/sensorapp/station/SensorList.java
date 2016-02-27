@@ -40,7 +40,8 @@ public class SensorList {
         list.add(sensor);
 
     }
-
+    
+    
     public void removeSensor(Sensor sensor) {
         int i = list.indexOf(sensor);
         if (i >= 0) {

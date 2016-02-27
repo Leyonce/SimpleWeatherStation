@@ -39,7 +39,7 @@ public class DBExecute {
     private static final String SENSOR_DATA_TIME = "SELECT sensor_data, sensor_time FROM sensors_info WHERE to_char(sensor_date,'D') in (?) AND sensor_id =?  AND sensor_date BETWEEN (?) and date (?) + INTERVAL '6days'";
     private static final String SENSORSLISTSQL = "SELECT  DISTINCT sensor_name FROM sensors WHERE sensor_type = ?";
     private static final String SENSORSQL = "SELECT sensor_type, sensor_location, sensor_update_time, sensor_id from sensors where sensor_name=?";
-    private static final String SENSOR_UPDATE_SQL = "UPDATE sensors SET sensor_location = ?, sensor_update_time = ?  WHERE  sensor_id =?";
+    private static final String SENSOR_UPDATE_SQL = "UPDATE sensors SET sensor_name =?, sensor_location = ?, sensor_update_time = ?  WHERE  sensor_id =?";
     private static final String SENSOR_INFO_DELETE_SQL = "DELETE FROM sensors_info WHERE sensor_id  IN (SELECT sensor_id from sensors where sensor_name =?)";
     private static final String SENSOR_DELETE_SQL = "DELETE FROM sensors where sensor_name = ?;";
 
@@ -50,7 +50,7 @@ public class DBExecute {
      *
      * @return
      */
-    public int getRowCount() {
+    public static int getRowCount() {
         ResultSet rs = null;
         int rows = 0;
         try (
@@ -329,14 +329,15 @@ public class DBExecute {
 
     }
 
-    public static void updateSensorSQL(int sensorId, String location, int updateTime) throws SQLException {
+    public static void updateSensorSQL(String name, int sensorId, String location, int updateTime) throws SQLException {
         try (
                 PreparedStatement stmt = conn.
                 prepareStatement(SENSOR_UPDATE_SQL, ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);) {
-            stmt.setString(1, location);
-            stmt.setInt(2, updateTime);
-            stmt.setInt(3, sensorId);
+           stmt.setString(1,name );
+            stmt.setString(2, location);
+            stmt.setInt(3, updateTime);
+            stmt.setInt(4, sensorId);
 
             stmt.execute();
 

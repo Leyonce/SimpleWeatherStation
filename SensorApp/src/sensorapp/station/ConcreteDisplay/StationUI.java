@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -38,7 +39,8 @@ public class StationUI extends javax.swing.JFrame {
 
     private Station station;
     private static StationUI instance;
-    Sensor currentSensor = null;
+    private Sensor currentSensor = null;
+
     private Date currentDate;
 
     private StationUI() {
@@ -589,9 +591,14 @@ public class StationUI extends javax.swing.JFrame {
                 System.out.println("Saved Thread");
             }
         }
-        String sensorName = TemperatureComboBox.getSelectedItem().toString();
-        SensorNameTextField.setText(sensorName);
-        activateCurrentSensor(sensorName);
+
+        try {
+            String sensorName = TemperatureComboBox.getSelectedItem().toString();
+            SensorNameTextField.setText(sensorName);
+            activateCurrentSensor(sensorName);
+
+        } catch (Exception e) {
+        }
 
 
     }//GEN-LAST:event_TemperatureComboBoxActionPerformed
@@ -602,7 +609,14 @@ public class StationUI extends javax.swing.JFrame {
 
     private void TemperatureComboBoxPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_TemperatureComboBoxPopupMenuWillBecomeVisible
         // TODO add your handling code here:
-        sensorDetailPanel.setVisible(true);
+        System.out.println(DBExecute.getRowCount());
+        if (DBExecute.getRowCount() > 0) {
+            sensorDetailPanel.setVisible(true);
+
+        } else {
+            JOptionPane.showMessageDialog(WindComboBox, "No sensor!");
+        }
+
     }//GEN-LAST:event_TemperatureComboBoxPopupMenuWillBecomeVisible
 
     private void PressureComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PressureComboBoxActionPerformed
@@ -615,8 +629,11 @@ public class StationUI extends javax.swing.JFrame {
                 System.out.println("Saved Thread");
             }
         }
-        String sensorName = PressureComboBox.getSelectedItem().toString();
-        activateCurrentSensor(sensorName);
+        try {
+            String sensorName = PressureComboBox.getSelectedItem().toString();
+            activateCurrentSensor(sensorName);
+        } catch (Exception e) {
+        }
 
 
     }//GEN-LAST:event_PressureComboBoxActionPerformed
@@ -649,9 +666,14 @@ public class StationUI extends javax.swing.JFrame {
      * @param evt
      */
     private void StartSensorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartSensorButtonActionPerformed
-        // TODO add your handling code here:
-        station.startSensor(currentSensor);
-        StatusTextField.setText(currentSensor.getStatus());
+
+        try {
+            station.startSensor(currentSensor);
+            StatusTextField.setText(currentSensor.getStatus());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(WindComboBox, "No sensor Selected");
+        }
 //        System.out.println(currentSensor.getSensorData().toString());
 
 
@@ -663,8 +685,14 @@ public class StationUI extends javax.swing.JFrame {
      */
     private void StopSensorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopSensorButtonActionPerformed
         // TODO add your handling code here:
-        station.stopSensor(currentSensor);
-        StatusTextField.setText(currentSensor.getStatus());
+        try {
+            station.stopSensor(currentSensor);
+            StatusTextField.setText(currentSensor.getStatus());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(WindComboBox, "No sensor Selected");
+
+        }
     }//GEN-LAST:event_StopSensorButtonActionPerformed
 
     private void HumidityComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HumidityComboBoxActionPerformed
@@ -677,8 +705,12 @@ public class StationUI extends javax.swing.JFrame {
                 System.out.println("Saved Thread");
             }
         }
-        String sensorName = HumidityComboBox.getSelectedItem().toString();
-        activateCurrentSensor(sensorName);
+        try {
+            String sensorName = HumidityComboBox.getSelectedItem().toString();
+            activateCurrentSensor(sensorName);
+
+        } catch (Exception e) {
+        }
 
     }//GEN-LAST:event_HumidityComboBoxActionPerformed
 
@@ -692,150 +724,152 @@ public class StationUI extends javax.swing.JFrame {
                 System.out.println("Saved Thread");
             }
         }
-        String sensorName = WindComboBox.getSelectedItem().toString();
-        activateCurrentSensor(sensorName);
+
+        try {
+            String sensorName = WindComboBox.getSelectedItem().toString();
+            activateCurrentSensor(sensorName);
+
+        } catch (Exception e) {
+        }
 
 
     }//GEN-LAST:event_WindComboBoxActionPerformed
 
-    
     /**
      * Queries data base for sensor data and sensor time for a specific day
-     * @param evt 
+     *
+     * @param evt
      */
     private void DayTabPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DayTabPaneMouseClicked
-       
+
         int day = DayTabPane.getSelectedIndex() + 1;
-       
-        switch (day) {
-            case 1:
-                SundayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
-                SundayTable.setVisible(true);
+        if (currentSensor != null) {
+            switch (day) {
+                case 1:
+                    SundayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
+                    SundayTable.setVisible(true);
                 //SundayTable.repaint();
 
-                //update the graph pannel
-                try {
+                    //update the graph pannel
+                    try {
 
-                    if (!SundayTable.getValueAt(0, 0).toString().isEmpty()) {
-                        System.out.println("mm");
+                        if (!SundayTable.getValueAt(0, 0).toString().isEmpty()) {
 
-                        DefaultCategoryDataset dataset = createdataset(SundayTable);
+                            DefaultCategoryDataset dataset = createdataset(SundayTable);
+                            UpdateGraph(dataset);
+                        }
+                    } catch (Exception e) {
+                        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
                         UpdateGraph(dataset);
                     }
-                } catch (Exception e) {
-                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                    UpdateGraph(dataset);
-                }
-                break;
-            case 2:
+                    break;
+                case 2:
 
-                MondayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
-                MondayTable.setVisible(true);
-                //update the graph pannel
-                try {
+                    MondayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
+                    MondayTable.setVisible(true);
+                    //update the graph pannel
+                    try {
 
-                    if (!MondayTable.getValueAt(0, 0).toString().isEmpty()) {
-                        System.out.println("mm");
+                        if (!MondayTable.getValueAt(0, 0).toString().isEmpty()) {
 
-                        DefaultCategoryDataset dataset = createdataset(MondayTable);
+                            DefaultCategoryDataset dataset = createdataset(MondayTable);
+                            UpdateGraph(dataset);
+                        }
+                    } catch (Exception e) {
+                        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
                         UpdateGraph(dataset);
                     }
-                } catch (Exception e) {
-                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                    UpdateGraph(dataset);
-                }
-                break;
-            case 3:
+                    break;
+                case 3:
 
-                TuesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
-                TuesdayTable.setVisible(true);
-                //update the graph pannel
-                try {
+                    TuesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
+                    TuesdayTable.setVisible(true);
+                    //update the graph pannel
+                    try {
 
-                    if (!TuesdayTable.getValueAt(0, 0).toString().isEmpty()) {
-                        System.out.println("mm");
+                        if (!TuesdayTable.getValueAt(0, 0).toString().isEmpty()) {
 
-                        DefaultCategoryDataset dataset = createdataset(TuesdayTable);
+                            DefaultCategoryDataset dataset = createdataset(TuesdayTable);
+                            UpdateGraph(dataset);
+                        }
+                    } catch (Exception e) {
+                        DefaultCategoryDataset dataset = new DefaultCategoryDataset();;
                         UpdateGraph(dataset);
                     }
-                } catch (Exception e) {
-                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();;
-                    UpdateGraph(dataset);
-                }
-                break;
-            case 4:
+                    break;
+                case 4:
 
-                WednesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
-                WednesdayTable.setVisible(true);
-                //update the graph pannel
-                try {
+                    WednesdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
+                    WednesdayTable.setVisible(true);
+                    //update the graph pannel
+                    try {
 
-                    if (!WednesdayTable.getValueAt(0, 0).toString().isEmpty()) {
-                        System.out.println("mm");
+                        if (!WednesdayTable.getValueAt(0, 0).toString().isEmpty()) {
 
-                        DefaultCategoryDataset dataset = createdataset(WednesdayTable);
+                            DefaultCategoryDataset dataset = createdataset(WednesdayTable);
+                            UpdateGraph(dataset);
+                        }
+                    } catch (Exception e) {
+                        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
                         UpdateGraph(dataset);
                     }
-                } catch (Exception e) {
-                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                    UpdateGraph(dataset);
-                }
-                break;
-            case 5:
+                    break;
+                case 5:
 
-                ThursdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
-                ThursdayTable.setVisible(true);
-                //update the graph pannel
-                try {
+                    ThursdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
+                    ThursdayTable.setVisible(true);
+                    //update the graph pannel
+                    try {
 
-                    if (!ThursdayTable.getValueAt(0, 0).toString().isEmpty()) {
-                        System.out.println("mm");
+                        if (!ThursdayTable.getValueAt(0, 0).toString().isEmpty()) {
 
-                        DefaultCategoryDataset dataset = createdataset(ThursdayTable);
+                            DefaultCategoryDataset dataset = createdataset(ThursdayTable);
+                            UpdateGraph(dataset);
+                        }
+                    } catch (Exception e) {
+                        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
                         UpdateGraph(dataset);
                     }
-                } catch (Exception e) {
-                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                    UpdateGraph(dataset);
-                }
-                break;
-            case 6:
+                    break;
+                case 6:
 
-                FridayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
-                FridayTable.setVisible(true);
-                //update the graph pannel
-                try {
+                    FridayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
+                    FridayTable.setVisible(true);
+                    //update the graph pannel
+                    try {
 
-                    if (!FridayTable.getValueAt(0, 0).toString().isEmpty()) {
-                        System.out.println("mm");
+                        if (!FridayTable.getValueAt(0, 0).toString().isEmpty()) {
 
-                        DefaultCategoryDataset dataset = createdataset(FridayTable);
+                            DefaultCategoryDataset dataset = createdataset(FridayTable);
+                            UpdateGraph(dataset);
+                        }
+                    } catch (Exception e) {
+                        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
                         UpdateGraph(dataset);
                     }
-                } catch (Exception e) {
-                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                    UpdateGraph(dataset);
-                }
-                break;
-            case 7:
-                SaturdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
-                SaturdayTable.setVisible(true);
-                //update the graph pannel
-                try {
+                    break;
+                case 7:
+                    SaturdayTable.setModel(DBExecute.getSensorDataTime(Integer.toString(day), currentSensor.getSensor_id(), currentDate));
+                    SaturdayTable.setVisible(true);
+                    //update the graph pannel
+                    try {
 
-                    if (!SaturdayTable.getValueAt(0, 0).toString().isEmpty()) {
-                        System.out.println("mm");
+                        if (!SaturdayTable.getValueAt(0, 0).toString().isEmpty()) {
 
-                        DefaultCategoryDataset dataset = createdataset(SaturdayTable);
+                            DefaultCategoryDataset dataset = createdataset(SaturdayTable);
+                            UpdateGraph(dataset);
+                        }
+                    } catch (Exception e) {
+                        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
                         UpdateGraph(dataset);
                     }
-                } catch (Exception e) {
-                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                    UpdateGraph(dataset);
-                }
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(WindComboBox, "Please select a sensor");
         }
 
 
@@ -921,7 +955,7 @@ public class StationUI extends javax.swing.JFrame {
             if (!parseList(sensorName)) {
                 currentSensor = DBExecute.CreateSensorFromTable(sensorName);
                 StatusTextField.setText(currentSensor.getStatus());
-                SensorUpdateTimeTextField.setText(Integer.toString(currentSensor.getUpdateTime())+ " ms");
+                SensorUpdateTimeTextField.setText(Integer.toString(currentSensor.getUpdateTime()) + " ms");
                 System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
 
             }
@@ -1226,6 +1260,10 @@ public class StationUI extends javax.swing.JFrame {
 
     public void setjTabbedPane3(JTabbedPane jTabbedPane3) {
         this.DayTabPane = jTabbedPane3;
+    }
+
+    public void setCurrentSensor(Sensor currentSensor) {
+        this.currentSensor = currentSensor;
     }
 
     /**

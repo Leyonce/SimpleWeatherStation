@@ -6,11 +6,7 @@
 package sensorapp;
 
 import java.sql.SQLException;
-import sensorapp.constants.SensorType;
-import sensorapp.sensors.Sensor;
-import sensorapp.sensors.pojo.Location;
 import sensorapp.station.ConcreteDisplay.StationUI;
-import sensorapp.station.Station;
 
 /**
  *

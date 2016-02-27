@@ -172,7 +172,13 @@ public class SensorSettingsUI extends javax.swing.JFrame {
             // TODO add your handling code here:
 
             currentSensor.interrupt();
-            DBExecute.updateSensorSQL(currentSensor.getSensor_id(),SensorLongitudeTextField.getText()+","+SensorLatitudeTextField.getText() , Integer.parseInt( SensorUTimeTextField.getText()));
+            DBExecute.updateSensorSQL(SensorNameTextField.getText(),currentSensor.getSensor_id(),SensorLongitudeTextField.getText()+","+SensorLatitudeTextField.getText() , Integer.parseInt( SensorUTimeTextField.getText()));
+            StationUI.getInstance().getWindComboBox().removeAllItems();
+            StationUI.getInstance().getHumidityComboBox().removeAllItems();
+            StationUI.getInstance().getPressureComboBox().removeAllItems();
+            StationUI.getInstance().getTemperatureComboBox().removeAllItems();
+            StationUI.getInstance().setComboBoxValues();
+            StationUI.getInstance().setCurrentSensor(null);
             this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(SensorSettingsUI.class.getName()).log(Level.SEVERE, null, ex);
