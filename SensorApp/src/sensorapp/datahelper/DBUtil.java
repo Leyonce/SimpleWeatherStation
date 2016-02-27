@@ -25,9 +25,7 @@ public class DBUtil {
  
 
     
-    private void DBUtil(){     
-    }
-    
+   
     public static DBUtil getInstance() {
         return DBInstance;
                
