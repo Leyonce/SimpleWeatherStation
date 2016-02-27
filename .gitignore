@@ -1,0 +1,18 @@
+nbproject/private/
+nbproject/genfiles.properties
+nbproject/build-impl.xml 
+
+
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# Class Files #
+*.class
+
+# Package Files #
+*.war
+*.ear
