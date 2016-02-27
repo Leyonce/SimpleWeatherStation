@@ -34,7 +34,7 @@ class TemperatureSensor extends Sensor {
         while (!this.isInterrupted()) {
             try {
 //                sleep(180000);
-                sleep(1800);
+                sleep(this.UpdateTime);
 
                 try {
                     generateSensorData();

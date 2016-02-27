@@ -16,6 +16,8 @@ import java.util.logging.Logger;
  */
 class PressureSensor extends Sensor {
 
+    
+    
     public PressureSensor(String name,String type) {
         super(name, type);
         this.siUnit = "pascal";
@@ -30,7 +32,7 @@ class PressureSensor extends Sensor {
         while (!this.isInterrupted()) {
             try {
 //                sleep(120000);
-                sleep(4200);
+                sleep(this.UpdateTime);
                 try {
                     generateSensorData();
                 } catch (SQLException ex) {

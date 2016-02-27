@@ -5,17 +5,12 @@
  */
 package sensorapp.sensors;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import sensorapp.sensors.pojo.SensorData;
 import sensorapp.sensors.pojo.SensorDataList;
 import sensorapp.sensors.pojo.Location;
 import sensorapp.constants.Status;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import sensorapp.datahelper.DBExecute;
 import sensorapp.station.ConcreteDisplay.CurrentConditionsDisplay;
 import sensorapp.station.WeatherData;
@@ -30,7 +25,7 @@ public abstract class Sensor extends Thread {
     protected Location location;
     protected String sensor_name;
 
-    protected String sensor_id;
+    protected int sensor_id;
 
     protected SensorData sensorData = null;
     protected SensorDataList sensorDataList = null;
@@ -40,6 +35,16 @@ public abstract class Sensor extends Thread {
     protected String sensorType;
 
     protected String siUnit;
+    
+    protected int UpdateTime = 10000;
+    
+    public void setUpdateTime(int UpdateTime) {
+        this.UpdateTime = UpdateTime;    
+    }
+    
+    public int getUpdateTime() {
+        return this.UpdateTime ;    
+    }
 
     public String getSensorSiUnit() {
         return siUnit;
@@ -59,19 +64,23 @@ public abstract class Sensor extends Thread {
         this.sensor_name = sensor_name;
         this.sensorType = sensorType;
         this.sensorDataList = new SensorDataList();
-        this.sensor_id = this.MD5Code(sensor_name);
+//        this.sensor_id = this.MD5Code(sensor_name);
     }
 
     /**
      * *Sensor constructor, sets the name of the sensor, the type of the
      * sensor, the location and instantiate the sensor data List ArrayList
+     * @param sensor_name
+     * @param sensorType
+     * @param location
      */
     public Sensor(String sensor_name, String sensorType, Location location) {
         this.sensor_name = sensor_name;
         this.location = location;
         this.sensorType = sensorType;
         this.sensorDataList = new SensorDataList();
-        this.sensor_id = this.MD5Code(sensor_name);
+        this.sensor_id = DBExecute.getSensorID(sensor_name,sensorType);
+      
 
     }
 
@@ -105,7 +114,7 @@ public abstract class Sensor extends Thread {
         return location;
     }
 
-    public String getSensor_id() {
+    public int getSensor_id() {
         return sensor_id;
     }
 
@@ -134,38 +143,40 @@ public abstract class Sensor extends Thread {
         sensorData = new SensorData();
         sensorData.setSiUnit(siUnit);
         sensorData.setData(number);
+        this.sensor_id = DBExecute.getSensorID(sensor_name,sensorType);
+
         DBExecute.insertSensorDataSQL(this.sensor_id, sensorData.getData(), sensorData.getDate(), this.sensorData.getTime());
 
       //notify display  
-      CurrentConditionsDisplay currentDisplay =CurrentConditionsDisplay.getInstance(); 
+        CurrentConditionsDisplay.getInstance(); //call display object
         WeatherData.getInstance().setMeasurement(sensorData, this);
         sensorDataList.addSensorData(sensorData);
 //        System.out.println(currentDisplay.display());
     }
 
-    /**
-     * Generates the unique id of the sensor using the name of the sensor.
-     */
-    public String MD5Code(String text) {
-        String hashtext = "";
-        String plaintext = text;
-        try {
-            MessageDigest m = MessageDigest.getInstance("MD5");
-            m.reset();
-            m.update(plaintext.getBytes());
-            byte[] digest = m.digest();
-            BigInteger bigInt = new BigInteger(1, digest);
-            hashtext = bigInt.toString(16);
-// Now we need to zero pad it if you actually want the full 32 chars.
-            while (hashtext.length() < 32) {
-                hashtext = "0" + hashtext;
-            }
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Sensor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return hashtext.substring(0, 10);
-    }
+//    /**
+//     * Generates the unique id of the sensor using the name of the sensor.
+//     */
+//    public String MD5Code(String text) {
+//        String hashtext = "";
+//        String plaintext = text;
+//        try {
+//            MessageDigest m = MessageDigest.getInstance("MD5");
+//            m.reset();
+//            m.update(plaintext.getBytes());
+//            byte[] digest = m.digest();
+//            BigInteger bigInt = new BigInteger(1, digest);
+//            hashtext = bigInt.toString(16);
+//// Now we need to zero pad it if you actually want the full 32 chars.
+//            while (hashtext.length() < 32) {
+//                hashtext = "0" + hashtext;
+//            }
+//        } catch (NoSuchAlgorithmException ex) {
+//            Logger.getLogger(Sensor.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        return hashtext.substring(0, 10);
+//    }
 
     public String getStatus() {
         return status.toString();

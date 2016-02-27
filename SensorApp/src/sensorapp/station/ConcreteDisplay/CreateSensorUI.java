@@ -22,8 +22,14 @@ public class CreateSensorUI extends javax.swing.JFrame {
      */
     public CreateSensorUI() {
         initComponents();
+        setHideOnClose();
     }
 
+    
+    
+    private void setHideOnClose() {
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE );
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,6 +79,11 @@ public class CreateSensorUI extends javax.swing.JFrame {
         CancelButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 CancelButtonMouseClicked(evt);
+            }
+        });
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelButtonActionPerformed(evt);
             }
         });
 
@@ -177,6 +188,14 @@ public class CreateSensorUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_CancelButtonMouseClicked
 
+    @Override
+    public void setDefaultCloseOperation(int operation) {
+        super.setDefaultCloseOperation(operation); //To change body of generated methods, choose Tools | Templates.
+    }
+
+   
+    
+    
     private void SensorTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SensorTypeComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SensorTypeComboBoxActionPerformed
@@ -191,7 +210,7 @@ public class CreateSensorUI extends javax.swing.JFrame {
         location.setLongitude(new Double(LongitudeTextField.getText()));
         type = SensorTypeComboBox.getSelectedItem().toString();
         JOptionPane.showMessageDialog(rootPane, ChooseSensorCombobox(type, location));
-        ArrayList list = Station.getInstance().getSensorList().getList();
+//        ArrayList list = Station.getInstance().getSensorList().getList();
 
 
     }//GEN-LAST:event_CreateButtonActionPerformed
@@ -235,6 +254,10 @@ public class CreateSensorUI extends javax.swing.JFrame {
     private void LongitudeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LongitudeTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_LongitudeTextFieldActionPerformed
+
+    private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CancelButtonActionPerformed
 
     /**
      * @param args the command line arguments

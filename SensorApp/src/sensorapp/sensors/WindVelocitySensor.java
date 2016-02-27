@@ -31,7 +31,7 @@ class WindVelocitySensor extends Sensor {
         while (!this.isInterrupted()) {
             try {
 //               sleep(60000);
-                sleep(1000);
+                sleep(this.UpdateTime);
 
                 try {
                     generateSensorData();

@@ -5,7 +5,6 @@
 package sensorapp.sensors;
 
 import sensorapp.sensors.pojo.Location;
-import sensorapp.constants.SensorType;
 import static java.lang.Thread.sleep;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -33,7 +32,7 @@ class HumiditySensor extends Sensor {
         while (!this.isInterrupted()) {
             try {
 //                sleep(420000);
-                sleep(4000);
+                sleep(this.UpdateTime);
                 try {
                     generateSensorData();
                 } catch (SQLException ex) {

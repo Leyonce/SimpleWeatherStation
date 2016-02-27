@@ -32,7 +32,7 @@ public class Station {
         Sensor sensor;
         sensor = factory.createSensor(name, type, location);
         
-        DBExecute.insertSensorSQL(sensor.getSensor_id(), name, type, location.toString());
+        DBExecute.CreateSensorSQL(name, type, location.toString(), sensor.getUpdateTime());
         return sensor;
     }
 

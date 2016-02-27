@@ -46,19 +46,19 @@ public class SensorApp {
         /* Create and display the form */
         StationUI station = StationUI.getInstance();
         station.setVisible(true);
-
-        Sensor sensor1 = Station.getInstance().createSensor("Temp1", SensorType.TEMPERATURE.toString(), new Location());
-//        System.out.println(sensor1);
-//        Station.getInstance().startSensor(sensor1);
-        Sensor sensor2 = Station.getInstance().createSensor("Humi1", SensorType.HUMIDITY.toString(), new Location());
-//        System.out.println(sensor2);
-//        Station.getInstance().startSensor(sensor2);
-        Sensor sensor3 = Station.getInstance().createSensor("Press1", SensorType.PRESSURE.toString(), new Location());
-//        System.out.println(sensor3);
-//        Station.getInstance().startSensor(sensor3);
-        Sensor sensor4 = Station.getInstance().createSensor("Wind1", SensorType.WIND_VELOCITY.toString(), new Location());
-//        System.out.println(sensor4);
-//        Station.getInstance().startSensor(sensor4);
+//
+//        Sensor sensor1 = Station.getInstance().createSensor("Temp1", SensorType.TEMPERATURE.toString(), new Location());
+////        System.out.println(sensor1);
+////        Station.getInstance().startSensor(sensor1);
+//        Sensor sensor2 = Station.getInstance().createSensor("Humi1", SensorType.HUMIDITY.toString(), new Location());
+////        System.out.println(sensor2);
+////        Station.getInstance().startSensor(sensor2);
+//        Sensor sensor3 = Station.getInstance().createSensor("Press1", SensorType.PRESSURE.toString(), new Location());
+////        System.out.println(sensor3);
+////        Station.getInstance().startSensor(sensor3);
+//        Sensor sensor4 = Station.getInstance().createSensor("Wind1", SensorType.WIND_VELOCITY.toString(), new Location());
+////        System.out.println(sensor4);
+////        Station.getInstance().startSensor(sensor4);
 
     }
 
