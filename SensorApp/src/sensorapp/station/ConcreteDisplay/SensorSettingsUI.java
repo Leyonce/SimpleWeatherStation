@@ -18,13 +18,18 @@ import sensorapp.station.Station;
  */
 public class SensorSettingsUI extends javax.swing.JFrame {
 
-    
-    private Sensor currentSensor;
+    private Sensor currentSensor = StationUI.getInstance().getCurrentSensor();
+
     /**
      * Creates new form EditSensorUI
      */
     public SensorSettingsUI() {
         initComponents();
+        SensorUTimeTextField.setText(Integer.toString(currentSensor.getUpdateTime()));
+        SensorLatitudeTextField.setText(Double.toString(currentSensor.getLocation().getLatitude()));
+        SensorLongitudeTextField.setText(Double.toString(currentSensor.getLocation().getLongitude()));
+        SensorNameTextField.setText(currentSensor.getSensor_name());
+
         setHideOnClose();
     }
 
@@ -41,10 +46,7 @@ public class SensorSettingsUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        SensorNameComboBox = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         ConfrimButton = new javax.swing.JButton();
@@ -52,29 +54,19 @@ public class SensorSettingsUI extends javax.swing.JFrame {
         SensorNameTextField = new javax.swing.JTextField();
         SensorLatitudeTextField = new javax.swing.JTextField();
         SensorLongitudeTextField = new javax.swing.JTextField();
-        SensorTypeComboBox = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
         SensorUTimeTextField = new javax.swing.JTextField();
+        RemoveButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        SensorNameComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SensorNameComboBoxActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Select Sensor:");
-
         jLabel2.setText("Sensor Name:");
-
-        jLabel3.setText("Sensor Type:");
 
         jLabel4.setText("Sensor Latitude:");
 
         jLabel5.setText("Senosr Longitude:");
 
-        ConfrimButton.setText("Confirm");
+        ConfrimButton.setText("Update");
         ConfrimButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ConfrimButtonActionPerformed(evt);
@@ -88,62 +80,52 @@ public class SensorSettingsUI extends javax.swing.JFrame {
             }
         });
 
-        SensorTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TEMPERATURE", "PRESSURE", "HUMIDITY", "WIND_VELOCITY" }));
-        SensorTypeComboBox.addActionListener(new java.awt.event.ActionListener() {
+        jLabel6.setText("Sensor update time:");
+
+        RemoveButton1.setBackground(new java.awt.Color(255, 0, 0));
+        RemoveButton1.setText("Remove");
+        RemoveButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SensorTypeComboBoxActionPerformed(evt);
+                RemoveButton1ActionPerformed(evt);
             }
         });
-
-        jLabel6.setText("Sensor update time:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(46, 46, 46)
-                .addComponent(ConfrimButton)
-                .addGap(70, 70, 70))
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(RemoveButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(58, 58, 58)
+                        .addComponent(ConfrimButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(34, 34, 34)
-                        .addComponent(SensorUTimeTextField))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SensorTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SensorNameComboBox, 0, 206, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(SensorLatitudeTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SensorLongitudeTextField)
-                            .addComponent(SensorNameTextField))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(34, 34, 34)
+                                .addComponent(SensorUTimeTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4))
+                                .addGap(47, 47, 47)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(SensorLatitudeTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(SensorLongitudeTextField)
+                                    .addComponent(SensorNameTextField))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SensorNameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(SensorTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(SensorNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -159,11 +141,12 @@ public class SensorSettingsUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(SensorUTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ConfrimButton)
-                    .addComponent(jButton2))
-                .addContainerGap(52, Short.MAX_VALUE))
+                    .addComponent(jButton2)
+                    .addComponent(RemoveButton1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -171,16 +154,11 @@ public class SensorSettingsUI extends javax.swing.JFrame {
 
     private void ConfrimButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfrimButtonActionPerformed
         try {
-            // TODO add your handling code here:
-            if (currentSensor.getSensor_name().equals(StationUI.getInstance().getCurrentSensor().getSensor_name())) {
-                currentSensor = StationUI.getInstance().getCurrentSensor();
-                 Station.getInstance().stopSensor(currentSensor);
-            }else {
-                
+
             Station.getInstance().stopSensor(currentSensor);
-            }
-            DBExecute.updateSensorSQL(SensorNameTextField.getText(),currentSensor.getSensor_id(),SensorLongitudeTextField.getText()+","+SensorLatitudeTextField.getText() , Integer.parseInt( SensorUTimeTextField.getText()));
-            StationUI.getInstance().clearSensorPannel();
+
+            DBExecute.updateSensorSQL(SensorNameTextField.getText(), currentSensor.getSensor_id(), SensorLongitudeTextField.getText() + "," + SensorLatitudeTextField.getText(), Integer.parseInt(SensorUTimeTextField.getText()));
+            StationUI.getInstance().refreshSensorPannel();
             JOptionPane.showMessageDialog(rootPane, "Updated Sensor!");
             this.dispose();
         } catch (SQLException ex) {
@@ -192,32 +170,26 @@ public class SensorSettingsUI extends javax.swing.JFrame {
 
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
-    /**
-     * Clear the names in the name combo box. Then add names in the name combo
-     * box if the name is
-     *
-     * @param evt
-     */
-    private void SensorTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SensorTypeComboBoxActionPerformed
 
-        SensorNameComboBox.removeAllItems();
-        for (int i = 0; i < DBExecute.getSensorList(SensorTypeComboBox.getSelectedItem().toString()).size(); i++) {
-            SensorNameComboBox.addItem(DBExecute.getSensorList(SensorTypeComboBox.getSelectedItem().toString()).get(i));
-
+    private void RemoveButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButton1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            int i = JOptionPane.showConfirmDialog(rootPane, "Are you sure?");
+            System.out.println(i);
+            if (i == 0) {
+                DBExecute.deleteSensorSQL(currentSensor.getSensor_name());
+                StationUI.getInstance().getWindComboBox().removeAllItems();
+                StationUI.getInstance().getHumidityComboBox().removeAllItems();
+                StationUI.getInstance().getPressureComboBox().removeAllItems();
+                StationUI.getInstance().getTemperatureComboBox().removeAllItems();
+                StationUI.getInstance().setComboBoxValues();
+                StationUI.getInstance().setCurrentSensor(null);
+                this.dispose();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SensorSettingsUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }//GEN-LAST:event_SensorTypeComboBoxActionPerformed
-
-    private void SensorNameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SensorNameComboBoxActionPerformed
-        // TODO add your handling code here:
-        String sensorName = SensorNameComboBox.getSelectedItem().toString();
-        SensorNameTextField.setText(sensorName);
-
-        currentSensor = StationUI.getInstance().activateCurrentSensor(sensorName);
-        SensorLatitudeTextField.setText(Double.toString(currentSensor.getLocation().getLatitude()));
-        SensorLongitudeTextField.setText(Double.toString(currentSensor.getLocation().getLongitude()));
-        SensorUTimeTextField.setText(Integer.toString(currentSensor.getUpdateTime()));
-    }//GEN-LAST:event_SensorNameComboBoxActionPerformed
+    }//GEN-LAST:event_RemoveButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,16 +197,13 @@ public class SensorSettingsUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ConfrimButton;
+    private javax.swing.JButton RemoveButton1;
     private javax.swing.JTextField SensorLatitudeTextField;
     private javax.swing.JTextField SensorLongitudeTextField;
-    private javax.swing.JComboBox SensorNameComboBox;
     private javax.swing.JTextField SensorNameTextField;
-    private javax.swing.JComboBox SensorTypeComboBox;
     private javax.swing.JTextField SensorUTimeTextField;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

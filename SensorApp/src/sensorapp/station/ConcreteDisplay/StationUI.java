@@ -46,7 +46,7 @@ public class StationUI extends javax.swing.JFrame {
     private StationUI() {
         this.station = Station.getInstance();
         initComponents();
-        sensorDetailPanel.setVisible(false);
+        
         try {
             setComboBoxValues();
         } catch (SQLException ex) {
@@ -68,7 +68,7 @@ public class StationUI extends javax.swing.JFrame {
      * Clear text field values and resets Graph
      *
      */
-    public void clearSensorPannel() throws SQLException {
+    public void refreshSensorPannel() throws SQLException {
 
         StationUI.getInstance().getWindComboBox().removeAllItems();
         StationUI.getInstance().getHumidityComboBox().removeAllItems();
@@ -159,7 +159,6 @@ public class StationUI extends javax.swing.JFrame {
         Menu = new javax.swing.JMenu();
         CreateSensor = new javax.swing.JMenuItem();
         Settings = new javax.swing.JMenuItem();
-        RemoveSensor = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -531,14 +530,6 @@ public class StationUI extends javax.swing.JFrame {
         });
         Menu.add(Settings);
 
-        RemoveSensor.setText("Remove Sensor");
-        RemoveSensor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RemoveSensorActionPerformed(evt);
-            }
-        });
-        Menu.add(RemoveSensor);
-
         MenuBar.add(Menu);
 
         setJMenuBar(MenuBar);
@@ -576,12 +567,6 @@ public class StationUI extends javax.swing.JFrame {
         SensorSettingsUI sensorSetting = new SensorSettingsUI();
         sensorSetting.setVisible(true);
     }//GEN-LAST:event_SettingsActionPerformed
-
-    private void RemoveSensorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveSensorActionPerformed
-        // TODO add your handling code here:
-        RemoveSensorUI removeSensor = new RemoveSensorUI();
-        removeSensor.setVisible(true);
-    }//GEN-LAST:event_RemoveSensorActionPerformed
     /**
      * Call JFrame to be able to create sensors
      *
@@ -629,14 +614,7 @@ public class StationUI extends javax.swing.JFrame {
     }//GEN-LAST:event_SensorNameTextFieldActionPerformed
 
     private void TemperatureComboBoxPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_TemperatureComboBoxPopupMenuWillBecomeVisible
-        // TODO add your handling code here:
-        System.out.println(DBExecute.getRowCount());
-        if (DBExecute.getRowCount() > 0) {
-            sensorDetailPanel.setVisible(true);
-
-        } else {
-            JOptionPane.showMessageDialog(WindComboBox, "No sensor!");
-        }
+      
 
     }//GEN-LAST:event_TemperatureComboBoxPopupMenuWillBecomeVisible
 
@@ -668,7 +646,7 @@ public class StationUI extends javax.swing.JFrame {
      * @return true if sensor name match
      */
     private Boolean parseList(String sensorName) {
-
+       
         for (int i = 0; i < station.getSensorList().getList().size(); i++) {//if list of running sensors is not empty
             Sensor s = (Sensor) station.getSensorList().getList().get(i);
             if (sensorName.equals(s.getSensor_name())) {
@@ -997,7 +975,7 @@ public class StationUI extends javax.swing.JFrame {
                 currentSensor = DBExecute.CreateSensorFromTable(sensorName);
                 StatusTextField.setText(currentSensor.getStatus());
                 SensorUpdateTimeTextField.setText(Integer.toString(currentSensor.getUpdateTime()) + " ms");
-                System.out.println("Created Sensor from db " + currentSensor.getSensor_name());
+                System.out.println("Created Sensor from db; Did not find matching sensor: " + currentSensor.getSensor_name());
 
             }
         } else { //if list of running sensors is empty
@@ -1005,7 +983,7 @@ public class StationUI extends javax.swing.JFrame {
             StatusTextField.setText(currentSensor.getStatus());
             SensorUpdateTimeTextField.setText(Integer.toString(currentSensor.getUpdateTime()) + " ms");
 
-            System.out.println("Created Sensor from db out of List");
+            System.out.println("Created Sensor from db; Station sensor List is empty");
         }
 
         return currentSensor;
@@ -1028,7 +1006,6 @@ public class StationUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane MondayScrollPane;
     private javax.swing.JTable MondayTable;
     private javax.swing.JComboBox PressureComboBox;
-    private javax.swing.JMenuItem RemoveSensor;
     private javax.swing.JScrollPane SaturdayScrollPane;
     private javax.swing.JTable SaturdayTable;
     private javax.swing.JTextField SensorNameTextField;
@@ -1137,14 +1114,7 @@ public class StationUI extends javax.swing.JFrame {
         this.PressureComboBox = PressureComboBox;
     }
 
-    public JMenuItem getRemoveSensor() {
-        return RemoveSensor;
-    }
-
-    public void setRemoveSensor(JMenuItem RemoveSensor) {
-        this.RemoveSensor = RemoveSensor;
-    }
-
+    
     public JScrollPane getSaturdayScrollPane() {
         return SaturdayScrollPane;
     }
