@@ -40,7 +40,7 @@ public class StationUI extends javax.swing.JFrame {
     private Station station;
     private static StationUI instance;
     private Sensor currentSensor = null;
-
+    private JPanel  chartPanel;
     private Date currentDate;
 
     private StationUI() {
@@ -62,6 +62,26 @@ public class StationUI extends javax.swing.JFrame {
         }
 
         return instance;
+    }
+
+    /**
+     * Clear text field values and resets Graph
+     *
+     */
+    public void clearSensorPannel() throws SQLException {
+          
+        StationUI.getInstance().getWindComboBox().removeAllItems();
+        StationUI.getInstance().getHumidityComboBox().removeAllItems();
+        StationUI.getInstance().getPressureComboBox().removeAllItems();
+        StationUI.getInstance().getTemperatureComboBox().removeAllItems();
+        StationUI.getInstance().setComboBoxValues();
+        StationUI.getInstance().setCurrentSensor(null);
+        chartPanel.removeAll();
+        SensorNameTextField.setText("");
+        SensorUpdateTimeTextField.setText("");
+        StatusTextField.setText("");
+        CurrentValueTextField.setText("");
+
     }
 
     /**
@@ -874,10 +894,13 @@ public class StationUI extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_DayTabPaneMouseClicked
-
+/**
+ * 
+ * @param dataset 
+ */
     private void UpdateGraph(DefaultCategoryDataset dataset) {
         JFreeChart chart = createChart(dataset);
-        JPanel chartPanel = new ChartPanel(chart);
+         chartPanel = new ChartPanel(chart);
         chartPanel.setSize(GraphPanel.getSize());
         if (GraphPanel.getComponentCount() > 0) {
             GraphPanel.remove(0);

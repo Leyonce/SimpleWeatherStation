@@ -7,6 +7,7 @@ package sensorapp.station.ConcreteDisplay;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sensorapp.datahelper.DBExecute;
 import sensorapp.sensors.Sensor;
 
@@ -173,12 +174,8 @@ public class SensorSettingsUI extends javax.swing.JFrame {
 
             currentSensor.interrupt();
             DBExecute.updateSensorSQL(SensorNameTextField.getText(),currentSensor.getSensor_id(),SensorLongitudeTextField.getText()+","+SensorLatitudeTextField.getText() , Integer.parseInt( SensorUTimeTextField.getText()));
-            StationUI.getInstance().getWindComboBox().removeAllItems();
-            StationUI.getInstance().getHumidityComboBox().removeAllItems();
-            StationUI.getInstance().getPressureComboBox().removeAllItems();
-            StationUI.getInstance().getTemperatureComboBox().removeAllItems();
-            StationUI.getInstance().setComboBoxValues();
-            StationUI.getInstance().setCurrentSensor(null);
+            StationUI.getInstance().clearSensorPannel();
+            JOptionPane.showMessageDialog(rootPane, "Updated Sensor!");
             this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(SensorSettingsUI.class.getName()).log(Level.SEVERE, null, ex);
