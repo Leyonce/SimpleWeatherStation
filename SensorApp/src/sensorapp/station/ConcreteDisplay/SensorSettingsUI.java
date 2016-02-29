@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sensorapp.datahelper.DBExecute;
 import sensorapp.sensors.Sensor;
+import sensorapp.station.Station;
 
 /**
  *
@@ -171,8 +172,13 @@ public class SensorSettingsUI extends javax.swing.JFrame {
     private void ConfrimButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfrimButtonActionPerformed
         try {
             // TODO add your handling code here:
-
-            currentSensor.interrupt();
+            if (currentSensor.getSensor_name().equals(StationUI.getInstance().getCurrentSensor().getSensor_name())) {
+                currentSensor = StationUI.getInstance().getCurrentSensor();
+                 Station.getInstance().stopSensor(currentSensor);
+            }else {
+                
+            Station.getInstance().stopSensor(currentSensor);
+            }
             DBExecute.updateSensorSQL(SensorNameTextField.getText(),currentSensor.getSensor_id(),SensorLongitudeTextField.getText()+","+SensorLatitudeTextField.getText() , Integer.parseInt( SensorUTimeTextField.getText()));
             StationUI.getInstance().clearSensorPannel();
             JOptionPane.showMessageDialog(rootPane, "Updated Sensor!");
@@ -207,7 +213,7 @@ public class SensorSettingsUI extends javax.swing.JFrame {
         String sensorName = SensorNameComboBox.getSelectedItem().toString();
         SensorNameTextField.setText(sensorName);
 
-        currentSensor = DBExecute.CreateSensorFromTable(sensorName);
+        currentSensor = StationUI.getInstance().activateCurrentSensor(sensorName);
         SensorLatitudeTextField.setText(Double.toString(currentSensor.getLocation().getLatitude()));
         SensorLongitudeTextField.setText(Double.toString(currentSensor.getLocation().getLongitude()));
         SensorUTimeTextField.setText(Integer.toString(currentSensor.getUpdateTime()));

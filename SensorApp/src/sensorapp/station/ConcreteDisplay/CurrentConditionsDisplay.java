@@ -51,8 +51,11 @@ public class CurrentConditionsDisplay implements Observer, DisplayElement {
     @Override
     public String display() {
         Double s = this.data.getData();
-        if(this.sensor.getSensor_name().equals(StationUI.getInstance().getCurrentSensor().getSensor_name()) ) {
+        try {
+            if(this.sensor.getSensor_name().equals(StationUI.getInstance().getCurrentSensor().getSensor_name()) ) {
             StationUI.getInstance().getCurrentValueTextField().setText(s.toString() + " " + this.data.getSiUnit());
+        }
+        } catch (Exception e) {
         }
         return s.toString();
 

@@ -40,7 +40,7 @@ public class StationUI extends javax.swing.JFrame {
     private Station station;
     private static StationUI instance;
     private Sensor currentSensor = null;
-    private JPanel  chartPanel;
+    private JPanel chartPanel;
     private Date currentDate;
 
     private StationUI() {
@@ -69,14 +69,14 @@ public class StationUI extends javax.swing.JFrame {
      *
      */
     public void clearSensorPannel() throws SQLException {
-          
+
         StationUI.getInstance().getWindComboBox().removeAllItems();
         StationUI.getInstance().getHumidityComboBox().removeAllItems();
         StationUI.getInstance().getPressureComboBox().removeAllItems();
         StationUI.getInstance().getTemperatureComboBox().removeAllItems();
         StationUI.getInstance().setComboBoxValues();
         StationUI.getInstance().setCurrentSensor(null);
-        chartPanel.removeAll();
+
         SensorNameTextField.setText("");
         SensorUpdateTimeTextField.setText("");
         StatusTextField.setText("");
@@ -615,6 +615,7 @@ public class StationUI extends javax.swing.JFrame {
         try {
             String sensorName = TemperatureComboBox.getSelectedItem().toString();
             SensorNameTextField.setText(sensorName);
+            CurrentValueTextField.setText("");
             activateCurrentSensor(sensorName);
 
         } catch (Exception e) {
@@ -651,6 +652,8 @@ public class StationUI extends javax.swing.JFrame {
         }
         try {
             String sensorName = PressureComboBox.getSelectedItem().toString();
+            CurrentValueTextField.setText("");
+
             activateCurrentSensor(sensorName);
         } catch (Exception e) {
         }
@@ -665,13 +668,14 @@ public class StationUI extends javax.swing.JFrame {
      * @return true if sensor name match
      */
     private Boolean parseList(String sensorName) {
-        //if list of running sensors is not empty
-        for (int i = 0; i < station.getSensorList().getList().size(); i++) {
+
+        for (int i = 0; i < station.getSensorList().getList().size(); i++) {//if list of running sensors is not empty
             Sensor s = (Sensor) station.getSensorList().getList().get(i);
             if (sensorName.equals(s.getSensor_name())) {
                 currentSensor = s; // set current sensor to already running sensor
                 station.getSensorList().removeSensor(s); //remove sensor from list
                 StatusTextField.setText(currentSensor.getStatus());
+                SensorUpdateTimeTextField.setText(Integer.toString(currentSensor.getUpdateTime()));
                 System.out.println("Took previous sensor value");
                 return true;
             }
@@ -688,8 +692,13 @@ public class StationUI extends javax.swing.JFrame {
     private void StartSensorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartSensorButtonActionPerformed
 
         try {
-            station.startSensor(currentSensor);
-            StatusTextField.setText(currentSensor.getStatus());
+            if (!currentSensor.getStatus().equals("ON")) {
+                station.startSensor(currentSensor);
+                StatusTextField.setText(currentSensor.getStatus());
+
+            } else {
+                JOptionPane.showMessageDialog(WindComboBox, "Sensor is already on");
+            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(WindComboBox, "No sensor Selected");
@@ -706,8 +715,12 @@ public class StationUI extends javax.swing.JFrame {
     private void StopSensorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopSensorButtonActionPerformed
         // TODO add your handling code here:
         try {
-            station.stopSensor(currentSensor);
-            StatusTextField.setText(currentSensor.getStatus());
+            if (!currentSensor.getStatus().equals("OFF")) {
+                station.stopSensor(currentSensor);
+                StatusTextField.setText(currentSensor.getStatus());
+            } else {
+                JOptionPane.showMessageDialog(WindComboBox, "Sensor already off");
+            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(WindComboBox, "No sensor Selected");
@@ -727,6 +740,8 @@ public class StationUI extends javax.swing.JFrame {
         }
         try {
             String sensorName = HumidityComboBox.getSelectedItem().toString();
+            CurrentValueTextField.setText("");
+
             activateCurrentSensor(sensorName);
 
         } catch (Exception e) {
@@ -747,6 +762,8 @@ public class StationUI extends javax.swing.JFrame {
 
         try {
             String sensorName = WindComboBox.getSelectedItem().toString();
+            CurrentValueTextField.setText("");
+
             activateCurrentSensor(sensorName);
 
         } catch (Exception e) {
@@ -894,13 +911,13 @@ public class StationUI extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_DayTabPaneMouseClicked
-/**
- * 
- * @param dataset 
- */
+    /**
+     *
+     * @param dataset
+     */
     private void UpdateGraph(DefaultCategoryDataset dataset) {
         JFreeChart chart = createChart(dataset);
-         chartPanel = new ChartPanel(chart);
+        chartPanel = new ChartPanel(chart);
         chartPanel.setSize(GraphPanel.getSize());
         if (GraphPanel.getComponentCount() > 0) {
             GraphPanel.remove(0);
@@ -970,8 +987,9 @@ public class StationUI extends javax.swing.JFrame {
      * as current station sensor.
      *
      *
+     * @param sensorName
      */
-    private void activateCurrentSensor(String sensorName) {
+    public Sensor activateCurrentSensor(String sensorName) {
         SensorNameTextField.setText(sensorName);
         if (!station.getSensorList().getList().isEmpty()) { //if list of running sensors is not empty
 
@@ -989,6 +1007,8 @@ public class StationUI extends javax.swing.JFrame {
 
             System.out.println("Created Sensor from db out of List");
         }
+
+        return currentSensor;
     }
 
     /**
